@@ -27,6 +27,36 @@
     (send [?p] get-dead)
 )
 
+(deffunction get-rept(?p)
+    (send [?p] get-rept)
+)
+
+(deffunction inc-rept(?p)
+    (bind ?rept (get-rept ?p))
+    (bind ?rept (+ ?rept 1))
+    (send [?p] put-rept ?rept)
+)
+
+(deffunction get-madness(?p)
+    (send [?p] get-madness)
+)
+
+(deffunction inc-madness(?p)
+    (bind ?madness (get-madness ?p))
+    (bind ?madness (+ ?madness 1))
+    (send [?p] put-madness ?madness)
+)
+
+(deffunction get-karma(?p)
+    (send [?p] get-karma)
+)
+
+(deffunction inc-karma(?p)
+    (bind ?karma (get-karma ?p))
+    (bind ?karma (+ ?karma 1))
+    (send [?p] put-karma ?karma)
+)
+
 (deffunction is-alive(?p)
     (bind ?dead (send [?p] get-dead))
     (bind ?return yes)
@@ -69,10 +99,6 @@
     (printout t "(yes/no)" crlf)
 )
 
-(deffunction get-rept(?x)
-
-)
-
 (deffacts initial-facts
     (where cave)
 )
@@ -88,7 +114,7 @@
 
 (defrule Q1
     (where cave)
-    (test (= (get-rept player) 0))
+    (jugador (rept 0))
     =>
     (assert (show Q1))
     (assert (incoming-transmision))
@@ -100,6 +126,7 @@
     =>
     (assert (show Q2))
     (retract ?where)
+    (retract ?trans)
 )
 
 (defrule Q2-A1
@@ -114,6 +141,10 @@
     =>
     (assert (incoming-transmision listened))
     (retract ?res)
+)
+
+(defrule Q3
+    (assert )
 )
 
 ;; Mostrar preguntas
