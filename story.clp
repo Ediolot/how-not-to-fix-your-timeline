@@ -1,13 +1,44 @@
 
 ;; Añadir los type, default si fuera necesario y allowed
 
-(deftemplate jugador
-    (slot name)
+;;==============================================================================
+
+(defclass PLAYER (is-a USER)
+    (multislot user-name)
     (slot dead)
     (slot rept)
     (slot madness)
     (slot karma)
 )
+
+(deffunction get-user-name(?p)
+    (send [?p] get-user-name)
+)
+
+(deffunction set-user-name(?p ?x)
+    (send [?p] put-user-name ?x)
+)
+
+(deffunction kill(?p)
+    (send [?p] put-dead yes)
+)
+
+(deffunction is-dead(?p)
+    (send [?p] get-dead)
+)
+
+(deffunction is-alive(?p)
+    (bind ?dead (send [?p] get-dead))
+    (bind ?return yes)
+    (if (eq ?dead yes) then (bind ?return no))
+    ?return
+)
+
+(definstances players
+    (player of PLAYER (dead no) (rept 0) (madness 0) (karma 0))
+)
+
+;;==============================================================================
 
 (deftemplate question-yes-no
     (slot type (default yes-no))
@@ -40,7 +71,6 @@
 
 (deffacts initial-facts
     (where cave)
-    (jugador (dead no) (rept 0) (madness 0) (karma 0))
 )
 
 (defrule start
@@ -61,7 +91,7 @@
 )
 
 (defrule Q2
-    ?trans <- (incoming-transmision)
+    (incoming-transmision)
     ?where <- (where cave)
     =>
     (assert (show Q2))
@@ -72,15 +102,19 @@
 (defrule Q2-A1
     ?res <- (answer-to Q2 1)
     =>
-    (printout t "Asserting answer 1")
+    (assert (incoming-transmision ignored))
     (retract ?res)
 )
 
 (defrule Q2-A2
-    ?res <- (answer-to Q2 1)
+    ?res <- (answer-to Q2 2)
     =>
-    (printout t "Asserting answer 2")
+    (assert (incoming-transmision listened))
     (retract ?res)
+)
+
+(defrule Q3
+    (assert )
 )
 
 ;; Mostrar preguntas
@@ -130,8 +164,14 @@
     (question-multi (name Q2)
         (text "Hay una transmision entrante, que haces?")
         (answers
-            "Ir a la nave"
-            "Ir a la ciudad"
+            "Ignorar la transmision"
+            "Escuchar la transmision"
         )
     )
+
+    (message (name Q3)
+        (text "Ecuchas un poco más al tio y empiezas a caminar (seguirle)"))
+
+    (message (name Q4)
+        (text "Escuchas la transmision de radio que te pide que vuelvas al punto de encuentro"))
 )
