@@ -69,6 +69,10 @@
     (printout t "(yes/no)" crlf)
 )
 
+(deffunction get-rept(?x)
+
+)
+
 (deffacts initial-facts
     (where cave)
 )
@@ -84,7 +88,7 @@
 
 (defrule Q1
     (where cave)
-    (jugador (rept 0))
+    (test (= (get-rept player) 0))
     =>
     (assert (show Q1))
     (assert (incoming-transmision))
@@ -96,7 +100,6 @@
     =>
     (assert (show Q2))
     (retract ?where)
-    (retract ?trans)
 )
 
 (defrule Q2-A1
@@ -111,10 +114,6 @@
     =>
     (assert (incoming-transmision listened))
     (retract ?res)
-)
-
-(defrule Q3
-    (assert )
 )
 
 ;; Mostrar preguntas
