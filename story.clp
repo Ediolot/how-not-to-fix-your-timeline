@@ -106,6 +106,7 @@
 (defrule start
     (declare (salience 1000))
     =>
+    (seed (round (time)))
     (printout t "
     _                                 _     _           __ _                                 _   _                _ _
    | |__   _____      __  _ __   ___ | |_  | |_ ___    / _(___  __  _   _  ___  _   _ _ __  | |_(_)_ __ ___   ___| (_)_ __   ___
@@ -134,7 +135,6 @@
 (defrule Q1
     ?where <- (where cave)
     ?trans <- (incoming-transmision)
-    (test (= (get-rept [player]) 0))
     =>
     (assert (show Q1))
 
@@ -154,6 +154,136 @@
     =>
     (assert (where way-city))
     (retract ?ans)
+)
+
+;; CAMINO NAVE IMP
+
+(defrule M30
+    (where way-imp-ship)
+    =>
+    (assert (show M30))
+    (assert (go check-point))
+)
+
+(defrule Q8
+    (declare (salience 5))
+    (go check-point)
+    (where way-imp-ship)
+    (test (>= (get-rept [player]) 1))
+    =>
+    (assert (show Q8))
+    (inc-madness [player])
+)
+
+(defrule Q8-A1
+    ?ans <- (answer-to Q8 yes)
+    ?go  <- (go check-point)
+    =>
+    (assert (look sky again))
+    (inc-madness [player])
+    (retract ?go)
+    (retract ?ans)
+)
+
+(defrule Q8-A2
+    ?ans <- (answer-to Q8 no)
+    =>
+    (assert (ignore sky))
+    (retract ?ans)
+)
+
+(defrule M32
+    ?look <- (look sky again)
+    (where way-imp-ship)
+    =>
+    (inc-madness [player])
+    (assert (show M32))
+    (assert (stun-hit))
+    (retract ?look)
+)
+
+(defrule M33
+    ?stun <- (stun-hit)
+    (where way-imp-ship)
+    =>
+    (assert (show M33))
+    (retract ?stun)
+
+    (if (= (random 0 2) 0)
+        then
+            (assert (critical-hit))
+        else
+            (assert (reset-hit))
+    )
+)
+
+(defrule M35
+    (where way-imp-ship)
+    (critical-hit)
+    =>
+    (assert (show M35))
+    (kill [player])
+)
+
+(defrule M36
+    ?where <- (where way-imp-ship)
+    ?reset <- (reset-hit)
+    =>
+    (assert (show M36))
+    (assert (where cave))
+    (inc-rept [player])
+    (retract ?where)
+    (retract ?reset)
+)
+
+(defrule M31
+    ?sky <- (ignore sky)
+    (where way-imp-ship)
+    =>
+    (assert (show M31))
+    (assert (go check-point))
+    (retract ?sky)
+)
+
+;; PUNTO DE ENCUENTRO
+
+(defrule M37
+    ?where <- (where way-imp-ship)
+    ?go    <- (go check-point)
+    =>
+    (retract ?go)
+    (retract ?where)
+
+    (assert (show M37))
+    (assert (where check-point))
+    (assert (go ship))
+)
+
+(defrule M38
+    (declare (salience 5))
+    (where check-point)
+    (A37 missing)
+    =>
+    (assert (show M38))
+)
+
+;; SHIP
+
+(defrule M39
+    ?where <- (where check-point)
+    ?go    <- (go ship)
+    =>
+    (assert (show M39))
+    (assert (where ship))
+    (retract ?go)
+    (retract ?where)
+
+    (if (= (random 0 2) 0)
+        then
+            (assert (all-safe))
+        else
+            (assert (alarm-start))
+    )
 )
 
 ;; Mostrar preguntas
