@@ -122,34 +122,38 @@
 
 ;; Decidir preguntas
 
-(defrule Q1
+(defrule M4
     (where cave)
-    (test (= (get-rept [player]) 0))
+    (or (test (= (get-rept [player]) 0))
+        (deja-vu))
     =>
-    (assert (show Q1))
+    (assert (show M4))
     (assert (incoming-transmision))
 )
 
-(defrule Q2
-    (incoming-transmision)
+(defrule Q1
     ?where <- (where cave)
+    ?trans <- (incoming-transmision)
+    (test (= (get-rept [player]) 0))
     =>
-    (assert (show Q2))
+    (assert (show Q1))
+
+    (retract ?trans)
     (retract ?where)
 )
 
-(defrule Q2-A1
-    ?res <- (answer-to Q2 1)
+(defrule Q1-A1
+    ?ans <- (answer-to Q1 1)
     =>
-    (assert (incoming-transmision ignored))
-    (retract ?res)
+    (assert (where way-imp-ship))
+    (retract ?ans)
 )
 
-(defrule Q2-A2
-    ?res <- (answer-to Q2 2)
+(defrule Q1-A2
+    ?ans <- (answer-to Q1 2)
     =>
-    (assert (incoming-transmision listened))
-    (retract ?res)
+    (assert (where way-city))
+    (retract ?ans)
 )
 
 ;; Mostrar preguntas
@@ -323,10 +327,17 @@
         (text "Escuchas a Rip"))
 
     (question-multi (name Q1)
-        (text "Escuchas una transmision, ¿Que haces?"))
+        (text "Escuchas una transmision, ¿Que haces?")
+        (answers
+            "Hacer caso y volver"
+            "Ignorar y seguir a Rip"))
 
     (question-multi (name Q2)
-        (text "Te cuestionas sobre lo que ocurre, ¿Que haces?"))
+        (text "Te cuestionas sobre lo que ocurre, ¿Que haces?")
+        (answers
+            "Amenazar"
+            "Preguntar"
+            "Enseñar objeto"))
 
     (message (name M34)
         (text "Le preguntas a Rip sobre lo que esta sucediendo"))
@@ -356,13 +367,19 @@
         (text "Explicacion del objeto"))
 
     (question-multi (name Q6)
-        (text "¿Sabes que raza ha creado semejante dispositivo?"))
+        (text "¿Sabes que raza ha creado semejante dispositivo?")
+        (answers
+            "Puede ser la X o la Y"
+            "Creo que es la X"))
 
     (message (name M11)
-            (text "Ha sido la raza X"))
+            (text "En realidad a sido la X"))
 
     (question-multi (name Q7)
-            (text "¿Que raza habra sido, la X o la Y?"))
+        (text "Crees que la X tiene posiblidadeds, pero la Y también ha hecho cosas raras")
+        (answers
+            "Confias que e sla X"
+            "Te decantas por la Y"))
 
     (message (name M12)
         (text "Llegas al planeta"))
@@ -371,7 +388,11 @@
         (text "El planeta esta desierto"))
 
     (question-multi (name Q14)
-        (text "¿Quien baja de la nave?"))
+        (text "¿Quien baja de la nave?")
+        (answers
+            "Deberias enviar a un tripulante"
+            "Deberias bajar a mirar"
+            "Deberia ir a mirar"))
 
     (message (name M14)
         (text "Rip ha bajado a mirar"))
@@ -392,7 +413,10 @@
         (text "Desactivas la trampa sin problemas"))
 
     (question-multi (name Q15)
-        (text "Has avistado una patrulla, ¿Que haces?"))
+        (text "Has avistado una patrulla, ¿Que haces?")
+        (answers
+            "Haces señales"
+            "La eliminas y te infiltras"))
 
     (message (name M20)
         (text "La eliminas y logras infiltrarte"))
@@ -403,8 +427,8 @@
     (message (name M22)
         (text "Mueres acribillado, pensaron que eras un enemigo"))
 
-    (question-multi (name Q16)
-        (text "Encuentras un Xniano en una celda, el cual te pide educadamente que lo liberes. ¿Que haces?"))
+    (question-yes-no (name Q16)
+        (text "Encuentras un Xniano en una celda, el cual te pide educadamente que lo liberes. ¿Lo liberas?"))
 
     (question-yes-no (name Q17)
         (text "El prisionero llama a los guardias, y te ves acorralado. ¿Activas el objeto?"))
