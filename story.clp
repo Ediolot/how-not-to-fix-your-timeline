@@ -113,7 +113,10 @@
    | | | | (_) \\ V  V /  | | | | (_) | |_  | || (_) | |  _| |>  <  | |_| | (_) | |_| | |    | |_| | | | | | |  __| | | | | |  __/
    |_| |_|\\___/ \\_/\\_/   |_| |_|\\___/ \\__|  \\__\\___/  |_| |_/_/\\_\\  \\__, |\\___/ \\__,_|_|     \\__|_|_| |_| |_|\\___|_|_|_| |_|\\___|
                                                                     |___/
-    " crlf crlf)
+
+
+    Presiona enter para comenzar ...
+    " crlf)
     (readline)
 )
 
@@ -190,22 +193,122 @@
 
 (deffacts QA
 
-    (message (name Q1)
-        (text "Escuchar el tio"))
+    (message (name M30)
+        (text "Vuelves a las nave imperial"))
 
-    (question-multi (name Q2)
-        (text "Hay una transmision entrante, que haces?")
+    (question-yes-no (name Q8)
+        (text "Te das cuenta de que las estrllas están cambiadas, miras de nuevo ?"))
+
+    (message (name M31)
+        (text "Te olvidas del tema y sigues caminando"))
+
+    (message (name M32)
+        (text "Vuelves a mirar"))
+
+    (message (name M33)
+        (text "Tropiezas y te quedas inconsciente"))
+
+    (message (name M35)
+        (text "Has muerto del golpe. END"))
+
+    (message (name M36)
+        (text "El objeto ha sido activado mientras estabas inconsciente. RESET"))
+
+    (message (name M37)
+        (text "Te reunes con la patrulla"))
+
+    (message (name M38)
+        (text "Falta A37"))
+
+    (message (name M39)
+        (text "Vuelves a la nave"))
+
+    (message (name M40)
+        (text "Vuelves con la nave. END"))
+
+    (message (name M41)
+        (text "Suena la alarma, hay un problema de sobrecarga"))
+
+    (question-multi (name Q13)
+        (text "El problema puede estar en la sala de generadores o en la sala de escudos, a cual vas ?")
         (answers
-            "Ignorar la transmision"
-            "Escuchar la transmision"
-        )
-    )
+            "Sala de escudos"
+            "Sala de generadores"))
 
-    (message (name Q3)
-        (text "Ecuchas un poco más al tio y empiezas a caminar (seguirle)"))
+    (message (name M42)
+        (text "Vas a comprobar los generadores"))
 
-    (message (name Q4)
-        (text "Escuchas la transmision de radio que te pide que vuelvas al punto de encuentro"))
+    (message (name M43)
+        (text "Muere A37 por una explosión de camino a la sala"))
+
+    (message (name M44)
+        (text "El objeto es activado por la sobrecarga"))
+
+    (message (name M45)
+        (text "Mueres por una explosión de camino a la sala"))
+
+    (message (name M46)
+        (text "Vas a comprobar los escudos"))
+
+    (question-multi (name Q9-A)
+        (text "Escuchas lo que te dice mientras vais a la zona de la ciudad")
+        (answers
+            "Acompañarle a la ciudad"
+            "(Answer blocked)"))
+
+    (question-multi (name Q9-B)
+        (text "Escuchas lo que te dice mientras vais a la zona de la ciudad, sin embargo, después de lo que ha pasado no sabes qué pensar")
+        (answers
+            "Acompañarle a la ciudad"
+            "Dispararle y volver sólo con el objeto"))
+
+    (message (name M51)
+        (text "Llegais a la zona de la ciudad"))
+
+    (message (name M48)
+        (text "Le disparas"))
+
+    (message (name M49)
+        (text "El ha sido mas rapido y ha dispardo antes"))
+
+    (message (name M50)
+        (text "El ha sido mas rapido y consigue activar el objeto"))
+
+    (question-yes-no (name Q12)
+        (text "Llegas a la ciudad y entrais a un sotano propiedad de Rip, recojes un objeto ?"))
+
+    (message (name M58)
+        (text "Recoges el objeto"))
+
+    (message (name M59)
+        (text "La nave a la que perteneces realiza un bombardeo orbital a tu posición"))
+
+    (message (name M60)
+        (text "Rip consigue activar el dispositivo a tiempo"))
+
+    (question-yes-no (name Q10)
+        (text "La zona de la ciudad esta destruida, pero parece que Rip tiene alli su nave, recojes un objeto de su interior?"))
+
+    (message (name M52)
+        (text "Recoges el objeto"))
+
+    (message (name M53)
+        (text "Despegas en la nave y recives una transmision, sino aterrizais os vuelan"))
+
+    (message (name M54)
+        (text "Te das cuenta de que la transmision es enviada por A37"))
+
+    (message (name M55)
+        (text "Te das cuenta de que la transmision no es enviada por A37, sin embargo debería ser suya"))
+
+    (question-yes-no (name Q11)
+        (text "Podria ser conveniente hacer caso a la transmision. Rendirse ?"))
+
+    (message (name M56)
+        (text "No te rindes y el caza dispara, Rip consigue activar el dispositivo a tiempo"))
+
+    (message (name M57)
+        (text "Te rindes pero el caza hace caso omiso y dispara, ambos moris"))
 
     (message (name M1)
         (text "Ya ha sucedido antes"))
@@ -329,6 +432,4 @@
 
     (message (name M29)
         (text "Su lider te agradece tu esfuerzo. ¡Has salvado la linea temporal!"))
-
-
 )
