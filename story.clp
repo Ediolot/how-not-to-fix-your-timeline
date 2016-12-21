@@ -6,23 +6,33 @@
     (slot karma)
 )
 
-(deftemplate question
+(deftemplate question-yes-no
+    (slot type (default yes-no))
     (slot name)
     (slot text)
-    (slot type) ;; Multi / yes-no / none
+)
+
+(deftemplate question-multi
+    (slot type (default multi))
+    (slot name)
+    (slot text)
     (multislot answers)
 )
 
-(deffunction print-answers(?type $?ans)
-    (bind ?len (length $?ans))
+(deftemplate message
+    (slot type (default message))
+    (slot name)
+    (slot text)
+)
 
-    (if (eq ?type multi)
-        then
-            (loop-for-count (?i 1 ?len)
-        	   (printout t ?i ". " (nth$ ?i $?ans) crlf))
-        else
-            (printout t "(yes/no)" crlf)
-    )
+(deffunction print-answers-multi($?ans)
+    (bind ?len (length $?ans))
+    (loop-for-count (?i 1 ?len)
+	   (printout t ?i ". " (nth$ ?i $?ans) crlf))
+)
+
+(deffunction print-answers-yes-no()
+    (printout t "(yes/no)" crlf)
 )
 
 (deffacts initial-facts
@@ -31,19 +41,10 @@
 )
 
 (defrule start
-    (not (initiated))
+    (not (initiated)) ;; Intentar con salience
     =>
     (printout t "Bienvenido a la historia inter..." crlf crlf)
     (assert (initiated))
-)
-
-(defrule wait-user-enter
-    (declare (salience 10))
-    (initiated)
-    ?enter <- (wait-user enter)
-    =>
-    (readline)
-    (retract ?enter)
 )
 
 ;; Decidir preguntas
@@ -69,40 +70,52 @@
 
 ;; Mostrar preguntas
 
-(defrule ask-question
-    (declare (salience 100))
+(defrule ask-question-yes-no
+    (declare (salience 10))
     ?show <- (show ?q)
     (initiated)
-    (question (name ?q) (text ?text) (answers $?ans) (type ?type))
+    (question-yes-no (name ?q) (text ?text))
     =>
     (printout t ?text crlf)
-    (print-answers ?type $?ans)
+    (print-answers-yes-no)
 
-    (switch ?type
-        (case multi then
-            (assert (response-to ?q (readline)))
-        )
-        (case yes-no then
-            (assert (response-to ?q (readline)))
-        )
-        (case none then
-            (readline)
-        )
-    )
+    (assert (response-to ?q (readline)))
+    (retract ?show)
+)
+
+(defrule ask-question-multi
+    (declare (salience 10))
+    ?show <- (show ?q)
+    (initiated)
+    (question-multi (name ?q) (text ?text) (answers $?ans))
+    =>
+    (printout t ?text crlf)
+    (print-answers-multi $?ans)
+
+    (assert (response-to ?q (readline)))
+    (retract ?show)
+)
+
+(defrule display-message
+    (declare (salience 10))
+    ?show <- (show ?q)
+    (initiated)
+    (message (name ?q) (text ?text))
+    =>
+    (printout t ?text crlf)
+    (readline)
 
     (retract ?show)
 )
 
 ;; Base de datos de preguntas
 
-(deffacts Qs
+(deffacts QA
 
-    (question (name Q1)
-        (type yes-no)
+    (message (name Q1)
         (text "Escuchar el tio"))
 
-    (question (name Q2)
-        (type multi)
+    (question-multi (name Q2)
         (text "Hay una transmision entrante, que haces?")
         (answers
             "Ir a la nave"
