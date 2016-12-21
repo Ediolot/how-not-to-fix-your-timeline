@@ -65,7 +65,7 @@
 )
 
 (definstances players
-    (player of PLAYER (dead no) (rept 1) (madness 0) (karma 0))
+    (player of PLAYER (dead no) (rept 0) (madness 0) (karma 0))
 )
 
 ;;==============================================================================
@@ -208,13 +208,30 @@
     )
 
 (defrule M11
-
     ?race <- (its-x)
     =>
     (assert (show M11))
-    (assert (go-to-planet))
+    (assert (on-ship))
+    (assert)
     (retract ?race)
     )
+
+(defrule M12
+    ?where <- (where cave)
+    (on-ship)
+    =>
+    (assert (show M12))
+    (retract ?where)
+    (assert (where planet))
+)
+
+(defrule M13
+    (where planet)
+    (on-ship)
+    =>
+    (assert (show M13))
+    )
+
 
 
 (defrule Q1
@@ -364,6 +381,23 @@
     (assert (its-x))
     (retract ?doubt)
     (retract ?ans)
+    )
+
+(defrule Q14
+    (on-ship)
+    (where planet)
+    =>
+    (assert (show Q14))
+    )
+
+(defrule Q14-A1
+    ?ship <- (on-ship)
+    ?ans <- (answer-to Q14 1)
+    =>
+    (assert (crew-member))
+    (assert (outside))
+    (retract ?ans)
+    (retract ?ship)
     )
 
 ;; Mostrar preguntas
