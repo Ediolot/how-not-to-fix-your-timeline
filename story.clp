@@ -223,6 +223,7 @@
     =>
     (assert (show M35))
     (kill [player])
+    (assert (end))
 )
 
 (defrule M36
@@ -274,7 +275,7 @@
     ?go    <- (go ship)
     =>
     (assert (show M39))
-    (assert (where ship))
+    (assert (where imp-ship))
     (retract ?go)
     (retract ?where)
 
@@ -286,14 +287,119 @@
     )
 )
 
+(defrule M40
+    (where imp-ship)
+    (all-safe)
+    =>
+    (assert (show M40))
+    (assert (end))
+)
+
+(defrule M41
+    (where imp-ship)
+    (alarm-start)
+    =>
+    (assert (show M41))
+    (assert (check-problem))
+)
+
+(defrule Q13
+    ?check <- (check-problem)
+    (where imp-ship)
+    (alarm-start)
+    =>
+    (assert (show Q13))
+    (retract ?check)
+)
+
+(defrule Q13-A1
+    ?ans <- (answer-to Q13 1) ; Escudos
+    =>
+    (assert (go shields-room))
+    (retract ?ans)
+)
+
+(defrule Q13-A2
+    ?ans <- (answer-to Q13 2) ; Generadores
+    =>
+    (assert (go generators-room))
+    (retract ?ans)
+)
+
+(defrule M46
+    (go shields-room)
+    (where imp-ship)
+    (alarm-start)
+    =>
+    (assert (show M46))
+    (assert (explosion))
+)
+
+(defrule M42
+    (go generators-room)
+    (where imp-ship)
+    (alarm-start)
+    =>
+    (assert (show M42))
+    (assert (explosion))
+)
+
+(defrule M45
+    (where imp-ship)
+    (alarm-start)
+    (explosion)
+    (or (go shields-room)
+        (and (go generators-room)
+             (A37 missing))
+    )
+    =>
+    (assert (show M45))
+    (assert (end))
+    (kill [player])
+)
+
+(defrule M43
+    ?go    <- (go generators-room)
+    (where imp-ship)
+    (alarm-start)
+    (explosion)
+    =>
+    (assert (show M43))
+    (assert (A37 die))
+    (inc-madness [player])
+    (retract ?go)
+)
+
+(defrule M44
+    ?die   <- (A37 die)
+    ?where <- (where imp-ship)
+    ?alarm <- (alarm-start)
+    ?explo <- (explosion)
+    =>
+    (assert (show M44))
+    (assert (where cave))
+    (assert (A37 missing))
+    (inc-rept [player])
+    (retract ?die)
+    (retract ?where)
+    (retract ?alarm)
+    (retract ?explo)
+)
+
 ;; Mostrar preguntas
+(defrule end
+    (declare (salience 9))
+    (end)
+    =>
+    (printout t "END")
+)
 
 (defrule ask-question-yes-no
     (declare (salience 10))
     ?show <- (show ?q)
     (question-yes-no (name ?q) (text ?text))
     =>
-    (printout t ?text crlf)
+    (printout t ?q "-> " ?text crlf)
     (print-answers-yes-no)
 
     (assert (answer-to ?q (read)))
@@ -305,7 +411,7 @@
     ?show <- (show ?q)
     (question-multi (name ?q) (text ?text) (answers $?ans))
     =>
-    (printout t ?text crlf)
+    (printout t ?q "-> " ?text crlf)
     (print-answers-multi $?ans)
 
     (assert (answer-to ?q (read)))
@@ -317,7 +423,7 @@
     ?show <- (show ?q)
     (message (name ?q) (text ?text))
     =>
-    (printout t ?text crlf)
+    (printout t ?q "-> " ?text crlf)
     (readline)
 
     (retract ?show)
