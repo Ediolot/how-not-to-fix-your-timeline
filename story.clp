@@ -1,14 +1,33 @@
 (deftemplate jugador
-    (slot nombre)
-    (slot vivo)
+    (slot name)
+    (slot dead)
     (slot rept)
-    (slot locura)
+    (slot madness)
     (slot karma)
+)
+
+(deftemplate question
+    (slot name)
+    (slot text)
+    (slot type) ;; Multi / yes-no / none
+    (multislot answers)
+)
+
+(deffunction print-answers(?type $?ans)
+    (bind ?len (length $?ans))
+
+    (if (eq ?type multi)
+        then
+            (loop-for-count (?i 1 ?len)
+        	   (printout t ?i ". " (nth$ ?i $?ans) crlf))
+        else
+            (printout t "(yes/no)" crlf)
+    )
 )
 
 (deffacts initial-facts
     (where cave)
-    (jugador (vivo yes) (rept 0) (locura 0) (karma 0))
+    (jugador (dead no) (rept 0) (madness 0) (karma 0))
 )
 
 (defrule start
@@ -35,7 +54,6 @@
     (jugador (rept 0))
     =>
     (assert (show Q1))
-    (assert (wait-user enter))
     (assert (incoming-transmision))
 )
 
@@ -51,13 +69,27 @@
 
 ;; Mostrar preguntas
 
-(defrule ask-Q1
+(defrule ask-question
     (declare (salience 100))
     ?show <- (show ?q)
     (initiated)
-    (question ?q ?text)
+    (question (name ?q) (text ?text) (answers $?ans) (type ?type))
     =>
     (printout t ?text crlf)
+    (print-answers ?type $?ans)
+
+    (switch ?type
+        (case multi then
+            (assert (response-to ?q (readline)))
+        )
+        (case yes-no then
+            (assert (response-to ?q (readline)))
+        )
+        (case none then
+            (readline)
+        )
+    )
+
     (retract ?show)
 )
 
@@ -65,9 +97,16 @@
 
 (deffacts Qs
 
-    (question Q1 "Escuchar el tio")
+    (question (name Q1)
+        (type yes-no)
+        (text "Escuchar el tio"))
 
-    (question Q2 "Hay una transmision entrante, que haces?
-        A. algo
-        B. perez")
+    (question (name Q2)
+        (type multi)
+        (text "Hay una transmision entrante, que haces?")
+        (answers
+            "Ir a la nave"
+            "Ir a la ciudad"
+        )
+    )
 )
