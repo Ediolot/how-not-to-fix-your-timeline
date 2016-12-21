@@ -106,6 +106,7 @@
 (defrule start
     (declare (salience 1000))
     =>
+    (seed (round (time)))
     (printout t "
     _                                 _     _           __ _                                 _   _                _ _
    | |__   _____      __  _ __   ___ | |_  | |_ ___    / _(___  __  _   _  ___  _   _ _ __  | |_(_)_ __ ___   ___| (_)_ __   ___
@@ -131,113 +132,9 @@
     (assert (incoming-transmision))
 )
 
-(defrule M1
-    (test (> (get-rept [player]) 0))
-    =>
-    (assert (show M1))
-    (assert (already-happened))
-)
-
-(defrule M3
-    ?already <- (already-happened)
-    (test (> (get-rept [player]) 2))
-    =>
-    (assert (show M3))
-    (retract ?already)
-    (inc-madness [player])
-    (assert (deja-vu))
-
-)
-
-(defrule M2
-    ?already <- (already-happened)
-    (test (> (get-rept [player]) 7))
-    =>
-    (assert (show M2))
-    (kill [player])
-    (retract ?already)
-)
-
-(defrule M5
-    (threat-rip)
-    =>
-    (assert (show M5))
-    (inc-madness [player])
-    )
-
-(defrule M6
-    (threat-rip)
-    =>
-    (assert (show M6))
-)
-
-(defrule M7
-    ?threat <- (threat-rip)
-    =>
-    (assert (show M7))
-    (retract ?threat)
-    (kill [player])
-
-    )
-
-(defrule M34
-    (ask-rip)
-    =>
-    (assert (show M34))
-    )
-
-(defrule M8
-    (show-rip)
-    =>
-    (assert (show M8))
-    )
-
-(defrule M9
-    (show-rip)
-    =>
-    (assert (show M9))
-    )
-
-(defrule M10
-    (declare (salience 5))
-    (not-under-effect)
-    ?under <- (not-under-effect)
-    =>
-    (assert (show M10))
-    (retract ?under)
-    )
-
-(defrule M11
-    ?race <- (its-x)
-    =>
-    (assert (show M11))
-    (assert (on-ship))
-    (assert)
-    (retract ?race)
-    )
-
-(defrule M12
-    ?where <- (where cave)
-    (on-ship)
-    =>
-    (assert (show M12))
-    (retract ?where)
-    (assert (where planet))
-)
-
-(defrule M13
-    (where planet)
-    (on-ship)
-    =>
-    (assert (show M13))
-    )
-
-
-
 (defrule Q1
     ?where <- (where cave)
     ?trans <- (incoming-transmision)
-    (test (= (get-rept [player]) 0))
     =>
     (assert (show Q1))
 
@@ -259,155 +156,250 @@
     (retract ?ans)
 )
 
-(defrule Q2
+;; CAMINO NAVE IMP
+
+(defrule M30
+    (where way-imp-ship)
+    =>
+    (assert (show M30))
+    (assert (go check-point))
+)
+
+(defrule Q8
     (declare (salience 5))
-    ?already <- (already-happened)
+    (go check-point)
+    (where way-imp-ship)
+    (test (>= (get-rept [player]) 1))
     =>
-    (assert (show Q2))
-    (retract ?already)
+    (assert (show Q8))
+    (inc-madness [player])
 )
 
-(defrule Q2-A1
-    ?ans <- (answer-to Q2 1)
+(defrule Q8-A1
+    ?ans <- (answer-to Q8 yes)
+    ?go  <- (go check-point)
     =>
-    (assert (threat-rip))
+    (assert (look sky again))
+    (inc-madness [player])
+    (retract ?go)
     (retract ?ans)
-    )
-
-(defrule Q2-A2
-    ?ans <- (answer-to Q2 2)
-    =>
-    (assert (ask-rip))
-    (retract ?ans)
-    )
-
-(defrule Q2-A3
-    ?ans <- (answer-to Q2 3)
-    =>
-    (assert (show-rip))
-    (retract ?ans)
-    )
-
-(defrule Q4
-    (ask-rip)
-    =>
-    (assert (show Q4))
-    )
-
-(defrule Q4-A1
-    ?ans <- (answer-to Q4 no)
-    ?rip <- (ask-rip)
-    =>
-    (assert (threat-rip))
-    (retract ?ans)
-    (retract ?rip)
-    )
-
-(defrule Q4-A2
-    ?ans <- (answer-to Q4 yes)
-    ?rip <- (ask-rip)
-    =>
-    (assert (show-rip))
-    (retract ?ans)
-    (retract ?rip)
-    )
-
-(defrule Q5
-    ?show <- (show-rip)
-    =>
-    (assert (show Q5))
-    (retract ?show)
-    )
-
-(defrule Q5-A1
-    ?ans <- (answer-to Q5 no)
-    =>
-    (assert (not-under-effect))
-    (assert (know-race))
-    (retract ?ans)
-    )
-
-(defrule Q5-A2
-    ?ans <- (answer-to Q5 yes)
-    =>
-    (assert (know-race))
-    (retract ?ans)
-    )
-
-(defrule Q6
-    ?race <- (know-race)
-    =>
-    (assert (show Q6))
-
 )
 
-(defrule Q6-A1
-    ?ans <- (answer-to Q6 1)
-    ?know <- (know-race)
+(defrule Q8-A2
+    ?ans <- (answer-to Q8 no)
     =>
-    (assert (its-x-or-y))
+    (assert (ignore sky))
     (retract ?ans)
-    (retract ?know)
-    )
+)
 
-(defrule Q6-A2
-    ?ans <- (answer-to Q6 2)
-    ?know <- (know-race)
+(defrule M32
+    ?look <- (look sky again)
+    (where way-imp-ship)
     =>
-    (assert (its-x))
+    (inc-madness [player])
+    (assert (show M32))
+    (assert (stun-hit))
+    (retract ?look)
+)
+
+(defrule M33
+    ?stun <- (stun-hit)
+    (where way-imp-ship)
+    =>
+    (assert (show M33))
+    (retract ?stun)
+
+    (if (= (random 0 2) 0)
+        then
+            (assert (critical-hit))
+        else
+            (assert (reset-hit))
+    )
+)
+
+(defrule M35
+    (where way-imp-ship)
+    (critical-hit)
+    =>
+    (assert (show M35))
+    (kill [player])
+    (assert (end))
+)
+
+(defrule M36
+    ?where <- (where way-imp-ship)
+    ?reset <- (reset-hit)
+    =>
+    (assert (show M36))
+    (assert (where cave))
+    (inc-rept [player])
+    (retract ?where)
+    (retract ?reset)
+)
+
+(defrule M31
+    ?sky <- (ignore sky)
+    (where way-imp-ship)
+    =>
+    (assert (show M31))
+    (assert (go check-point))
+    (retract ?sky)
+)
+
+;; PUNTO DE ENCUENTRO
+
+(defrule M37
+    ?where <- (where way-imp-ship)
+    ?go    <- (go check-point)
+    =>
+    (retract ?go)
+    (retract ?where)
+
+    (assert (show M37))
+    (assert (where check-point))
+    (assert (go ship))
+)
+
+(defrule M38
+    (declare (salience 5))
+    (where check-point)
+    (A37 missing)
+    =>
+    (assert (show M38))
+)
+
+;; SHIP
+
+(defrule M39
+    ?where <- (where check-point)
+    ?go    <- (go ship)
+    =>
+    (assert (show M39))
+    (assert (where imp-ship))
+    (retract ?go)
+    (retract ?where)
+
+    (if (= (random 0 2) 0)
+        then
+            (assert (all-safe))
+        else
+            (assert (alarm-start))
+    )
+)
+
+(defrule M40
+    (where imp-ship)
+    (all-safe)
+    =>
+    (assert (show M40))
+    (assert (end))
+)
+
+(defrule M41
+    (where imp-ship)
+    (alarm-start)
+    =>
+    (assert (show M41))
+    (assert (check-problem))
+)
+
+(defrule Q13
+    ?check <- (check-problem)
+    (where imp-ship)
+    (alarm-start)
+    =>
+    (assert (show Q13))
+    (retract ?check)
+)
+
+(defrule Q13-A1
+    ?ans <- (answer-to Q13 1) ; Escudos
+    =>
+    (assert (go shields-room))
     (retract ?ans)
-    (retract ?know)
-    )
+)
 
-(defrule Q7
-    (its-x-or-y)
+(defrule Q13-A2
+    ?ans <- (answer-to Q13 2) ; Generadores
     =>
-    (assert (show Q7))
-    )
-
-(defrule Q7-A1
-    ?doubt <- (its-x-or-y)
-    ?ans <- (answer-to Q7 1)
-    =>
-    (assert (its-x))
-    (retract ?doubt)
+    (assert (go generators-room))
     (retract ?ans)
-    )
+)
 
-(defrule Q7-A2
-    ?doubt <- (its-x-or-y)
-    ?ans <- (answer-to Q7 2)
+(defrule M46
+    (go shields-room)
+    (where imp-ship)
+    (alarm-start)
     =>
-    (assert (its-x))
-    (retract ?doubt)
-    (retract ?ans)
-    )
+    (assert (show M46))
+    (assert (explosion))
+)
 
-(defrule Q14
-    (on-ship)
-    (where planet)
+(defrule M42
+    (go generators-room)
+    (where imp-ship)
+    (alarm-start)
     =>
-    (assert (show Q14))
-    )
+    (assert (show M42))
+    (assert (explosion))
+)
 
-(defrule Q14-A1
-    ?ship <- (on-ship)
-    ?ans <- (answer-to Q14 1)
-    =>
-    (assert (crew-member))
-    (assert (outside))
-    (retract ?ans)
-    (retract ?ship)
+(defrule M45
+    (where imp-ship)
+    (alarm-start)
+    (explosion)
+    (or (go shields-room)
+        (and (go generators-room)
+             (A37 missing))
     )
+    =>
+    (assert (show M45))
+    (assert (end))
+    (kill [player])
+)
+
+(defrule M43
+    ?go    <- (go generators-room)
+    (where imp-ship)
+    (alarm-start)
+    (explosion)
+    =>
+    (assert (show M43))
+    (assert (A37 die))
+    (inc-madness [player])
+    (retract ?go)
+)
+
+(defrule M44
+    ?die   <- (A37 die)
+    ?where <- (where imp-ship)
+    ?alarm <- (alarm-start)
+    ?explo <- (explosion)
+    =>
+    (assert (show M44))
+    (assert (where cave))
+    (assert (A37 missing))
+    (inc-rept [player])
+    (retract ?die)
+    (retract ?where)
+    (retract ?alarm)
+    (retract ?explo)
+)
 
 ;; Mostrar preguntas
+(defrule end
+    (declare (salience 9))
+    (end)
+    =>
+    (printout t "END")
+)
 
 (defrule ask-question-yes-no
     (declare (salience 10))
     ?show <- (show ?q)
     (question-yes-no (name ?q) (text ?text))
     =>
-    (printout t ?text crlf)
+    (printout t ?q "-> " ?text crlf)
     (print-answers-yes-no)
 
     (assert (answer-to ?q (read)))
@@ -419,7 +411,7 @@
     ?show <- (show ?q)
     (question-multi (name ?q) (text ?text) (answers $?ans))
     =>
-    (printout t ?text crlf)
+    (printout t ?q "-> " ?text crlf)
     (print-answers-multi $?ans)
 
     (assert (answer-to ?q (read)))
@@ -431,7 +423,7 @@
     ?show <- (show ?q)
     (message (name ?q) (text ?text))
     =>
-    (printout t ?text crlf)
+    (printout t ?q "-> " ?text crlf)
     (readline)
 
     (retract ?show)
