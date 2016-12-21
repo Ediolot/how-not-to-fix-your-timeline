@@ -12,53 +12,53 @@
 )
 
 (deffunction get-user-name(?p)
-    (send [?p] get-user-name)
+    (send ?p get-user-name)
 )
 
 (deffunction set-user-name(?p ?x)
-    (send [?p] put-user-name ?x)
+    (send ?p put-user-name ?x)
 )
 
 (deffunction kill(?p)
-    (send [?p] put-dead yes)
+    (send ?p put-dead yes)
 )
 
 (deffunction is-dead(?p)
-    (send [?p] get-dead)
+    (send ?p get-dead)
 )
 
 (deffunction get-rept(?p)
-    (send [?p] get-rept)
+    (send ?p get-rept)
 )
 
 (deffunction inc-rept(?p)
     (bind ?rept (get-rept ?p))
     (bind ?rept (+ ?rept 1))
-    (send [?p] put-rept ?rept)
+    (send ?p put-rept ?rept)
 )
 
 (deffunction get-madness(?p)
-    (send [?p] get-madness)
+    (send ?p get-madness)
 )
 
 (deffunction inc-madness(?p)
     (bind ?madness (get-madness ?p))
     (bind ?madness (+ ?madness 1))
-    (send [?p] put-madness ?madness)
+    (send ?p put-madness ?madness)
 )
 
 (deffunction get-karma(?p)
-    (send [?p] get-karma)
+    (send ?p get-karma)
 )
 
 (deffunction inc-karma(?p)
     (bind ?karma (get-karma ?p))
     (bind ?karma (+ ?karma 1))
-    (send [?p] put-karma ?karma)
+    (send ?p put-karma ?karma)
 )
 
 (deffunction is-alive(?p)
-    (bind ?dead (send [?p] get-dead))
+    (bind ?dead (send ?p get-dead))
     (bind ?return yes)
     (if (eq ?dead yes) then (bind ?return no))
     ?return
@@ -114,7 +114,7 @@
 
 (defrule Q1
     (where cave)
-    (jugador (rept 0))
+    (test (= (get-rept [player]) 0))
     =>
     (assert (show Q1))
     (assert (incoming-transmision))
@@ -126,7 +126,6 @@
     =>
     (assert (show Q2))
     (retract ?where)
-    (retract ?trans)
 )
 
 (defrule Q2-A1
@@ -141,10 +140,6 @@
     =>
     (assert (incoming-transmision listened))
     (retract ?res)
-)
-
-(defrule Q3
-    (assert )
 )
 
 ;; Mostrar preguntas
