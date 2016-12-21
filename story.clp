@@ -1,3 +1,6 @@
+
+;; Añadir los type, default si fuera necesario y allowed
+
 (deftemplate jugador
     (slot name)
     (slot dead)
@@ -41,16 +44,15 @@
 )
 
 (defrule start
-    (not (initiated)) ;; Intentar con salience
+    (declare (salience 1000))
     =>
     (printout t "Bienvenido a la historia inter..." crlf crlf)
-    (assert (initiated))
+    (readline)
 )
 
 ;; Decidir preguntas
 
 (defrule Q1
-    (initiated)
     (where cave)
     (jugador (rept 0))
     =>
@@ -61,11 +63,24 @@
 (defrule Q2
     ?trans <- (incoming-transmision)
     ?where <- (where cave)
-    (initiated)
     =>
     (assert (show Q2))
     (retract ?where)
     (retract ?trans)
+)
+
+(defrule Q2-A1
+    ?res <- (answer-to Q2 1)
+    =>
+    (printout t "Asserting answer 1")
+    (retract ?res)
+)
+
+(defrule Q2-A2
+    ?res <- (answer-to Q2 1)
+    =>
+    (printout t "Asserting answer 2")
+    (retract ?res)
 )
 
 ;; Mostrar preguntas
@@ -73,33 +88,30 @@
 (defrule ask-question-yes-no
     (declare (salience 10))
     ?show <- (show ?q)
-    (initiated)
     (question-yes-no (name ?q) (text ?text))
     =>
     (printout t ?text crlf)
     (print-answers-yes-no)
 
-    (assert (response-to ?q (readline)))
+    (assert (answer-to ?q (read)))
     (retract ?show)
 )
 
 (defrule ask-question-multi
     (declare (salience 10))
     ?show <- (show ?q)
-    (initiated)
     (question-multi (name ?q) (text ?text) (answers $?ans))
     =>
     (printout t ?text crlf)
     (print-answers-multi $?ans)
 
-    (assert (response-to ?q (readline)))
+    (assert (answer-to ?q (read)))
     (retract ?show)
 )
 
 (defrule display-message
     (declare (salience 10))
     ?show <- (show ?q)
-    (initiated)
     (message (name ?q) (text ?text))
     =>
     (printout t ?text crlf)
