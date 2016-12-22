@@ -101,6 +101,7 @@
 
 (deffacts initial-facts
     (where cave)
+    (city not-destroyed)
 )
 
 (defrule start
@@ -609,17 +610,249 @@
 )
 
 (defrule Q9-B-A1
-    ?ans <- (answer-to Q9-A 1)
+    ?ans <- (answer-to Q9-B 1)
     =>
     (assert (go city-zone))
     (retract ?ans)
 )
 
 (defrule Q9-B-A2
-    ?ans <- (answer-to Q9-A 2)
+    ?ans <- (answer-to Q9-B 2)
     =>
     (assert (shoot rip))
     (retract ?ans)
+)
+
+(defrule M51
+    ?where <- (where way-city)
+    ?go <- (go city-zone)
+    =>
+    (retract ?where)
+    (retract ?go)
+    (assert (show M51))
+    (assert (where city-zone))
+)
+
+(defrule M48
+    (where way-city)
+    (shoot rip)
+    =>
+    (assert (show M48))
+    (inc-madness [player])
+
+    (if (= (random 0 1) 0)
+        then
+            (assert (rip faster)) ; 33%
+        else
+            (assert (rip reset)) ; 66%
+    )
+)
+
+(defrule M49
+    (where way-city)
+    (rip faster)
+    (shoot rip)
+    =>
+    (assert (show M49))
+    (assert (end))
+)
+
+(defrule M50
+    ?where <- (where way-city)
+    ?rip   <- (rip reset)
+    ?shoot <- (shoot rip)
+    =>
+    (assert (show M50))
+    (assert (where cave))
+    (inc-rept [player])
+    (retract ?shoot)
+    (retract ?rip)
+    (retract ?where)
+)
+
+;; NAVE
+
+(defrule Q10
+    (where city-zone)
+    (city destroyed)
+    =>
+    (assert (show Q10))
+    (assert (where rip-ship))
+)
+
+(defrule Q10-A1
+    ?ans <- (answer-to Q10 yes)
+    =>
+    (retract ?ans)
+    (assert (pick-object))
+    (assert (incoming-transmision))
+)
+
+(defrule Q10-A2
+    ?ans <- (answer-to Q10 no)
+    =>
+    (retract ?ans)
+    (assert (incoming-transmision))
+)
+
+(defrule M52
+    ?pick <- (pick-object)
+    (where city-zone)
+    (where rip-ship)
+    (city destroyed)
+    =>
+    (assert (show M52))
+    (assert (have-object))
+    (retract ?pick)
+)
+
+(defrule M53
+    (not (pick-object))
+    ?trans <- (incoming-transmision)
+    (where city-zone)
+    (where rip-ship)
+    (city destroyed)
+    =>
+    (assert (show M53))
+    (assert (incoming-fighter))
+    (retract ?trans)
+)
+
+(defrule M54
+    (not (A37 missing))
+    ?fighter <- (incoming-fighter)
+    (where city-zone)
+    (where rip-ship)
+    (city destroyed)
+    =>
+    (assert (show M54))
+    (assert (try surrender))
+    (retract ?fighter)
+)
+
+(defrule M55
+    (A37 missing)
+    ?fighter <- (incoming-fighter)
+    (where city-zone)
+    (where rip-ship)
+    (city destroyed)
+    =>
+    (assert (show M55))
+    (assert (try surrender))
+    (retract ?fighter)
+)
+
+(defrule Q11
+    ?try <- (try surrender)
+    (where city-zone)
+    (where rip-ship)
+    (city destroyed)
+    =>
+    (assert (show Q11))
+    (retract ?try)
+)
+
+(defrule Q11-A1
+    ?ans <- (answer-to Q11 yes)
+    =>
+    (assert (fighter-shoots))
+    (retract ?ans)
+)
+
+(defrule Q11-A2
+    ?ans <- (answer-to Q11 no)
+    =>
+    (assert (fighter-shoots reset))
+    (retract ?ans)
+)
+
+(defrule M56
+    ?shoot  <- (fighter-shoots reset)
+    ?where1 <- (where city-zone)
+    ?where2 <- (where rip-ship)
+    (city destroyed)
+    =>
+    (assert (show M56))
+    (assert (where cave))
+    (retract ?shoot)
+    (retract ?where1)
+    (retract ?where2)
+)
+
+(defrule M57
+    (fighter-shoots)
+    (where city-zone)
+    (where rip-ship)
+    (city destroyed)
+    =>
+    (assert (show M57))
+    (assert (end))
+)
+
+;; SOTANO
+
+(defrule Q12
+    (where city-zone)
+    (city not-destroyed)
+    =>
+    (assert (show Q12))
+    (assert (where basement))
+)
+
+(defrule Q12-A1
+    ?ans <- (answer-to Q12 yes)
+    =>
+    (retract ?ans)
+    (assert (pick-object))
+    (assert (orbital-shoot))
+)
+
+(defrule Q12-A2
+    ?ans <- (answer-to Q12 no)
+    =>
+    (retract ?ans)
+    (assert (orbital-shoot))
+)
+
+(defrule M58
+    ?pick <- (pick-object)
+    (where city-zone)
+    (where basement)
+    (city not-destroyed)
+    =>
+    (assert (show M58))
+    (assert (have-object))
+    (retract ?pick)
+)
+
+(defrule M59
+    (not (pick-object))
+    (orbital-shoot)
+    (where city-zone)
+    (where basement)
+    (city not-destroyed)
+    =>
+    (assert (show M59))
+    (assert (obj activated))
+)
+
+(defrule M60
+    (not (pick-object))
+    ?obj    <- (obj activated)
+    ?shoot  <- (orbital-shoot)
+    ?where1 <- (where city-zone)
+    ?where2 <- (where basement)
+    ?city   <- (city not-destroyed)
+    =>
+    (assert (show M60))
+    (assert (city destroyed))
+    (assert (where cave))
+    (inc-rept [player])
+    (retract ?obj)
+    (retract ?shoot)
+    (retract ?where1)
+    (retract ?where2)
+    (retract ?city)
 )
 
 ;; CAMINO NAVE IMP
@@ -676,7 +909,7 @@
     (assert (show M33))
     (retract ?stun)
 
-    (if (= (random 0 100) 0)
+    (if (= (random 0 2) 0)
         then
             (assert (critical-hit)) ; 33%
         else
@@ -858,6 +1091,7 @@
     (declare (salience 9))
     (end)
     =>
+    (clear)
     (printout t "END")
 )
 
