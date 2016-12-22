@@ -1323,7 +1323,7 @@
         (text "Vuelves a las nave imperial"))
 
     (question-yes-no (name Q8)
-        (text "Te das cuenta de que las estrllas están cambiadas, miras de nuevo ?"))
+        (text "Te das cuenta de que las estrellas están cambiadas, ¿Miras de nuevo?"))
 
     (message (name M31)
         (text "Te olvidas del tema y sigues caminando"))
@@ -1419,7 +1419,7 @@
         (text "Recoges el objeto"))
 
     (message (name M53)
-        (text "Despegas en la nave y recives una transmision, sino aterrizais os vuelan"))
+        (text "Despegas en la nave y recibes una transmision, 'sino aterrizais os vuelan'"))
 
     (message (name M54)
         (text "Te das cuenta de que la transmision es enviada por A37"))
@@ -1428,7 +1428,7 @@
         (text "Te das cuenta de que la transmision no es enviada por A37, sin embargo debería ser suya"))
 
     (question-yes-no (name Q11)
-        (text "Podria ser conveniente hacer caso a la transmision. Rendirse ?"))
+        (text "Podria ser conveniente hacer caso a la transmision.  ¿Rendirse?"))
 
     (message (name M56)
         (text "No te rindes y el caza dispara, Rip consigue activar el dispositivo a tiempo"))
@@ -1511,7 +1511,7 @@
             "Creo que es la X"))
 
     (message (name M11)
-            (text "En realidad a sido la X"))
+            (text "Gideon nos informa que ha sido la raza X"))
 
     (question-multi (name Q7)
         (text "Crees que la X tiene posiblidadeds, pero la Y también ha hecho cosas raras")
@@ -1520,17 +1520,17 @@
             "Te decantas por la Y"))
 
     (message (name M12)
-        (text "Llegas al planet"))
+        (text "Llegas al planeta"))
 
     (message (name M13)
-        (text "El planet esta desierto"))
+        (text "El planeta esta desierto"))
 
     (question-multi (name Q14)
         (text "¿Quien baja de la nave?")
         (answers
             "Deberias enviar a un tripulante"
             "Deberias bajar a mirar"
-            "Deberia ir a mirar"))
+            "Deberia ir Rip a mirar"))
 
     (message (name M14)
         (text "Rip ha bajado a mirar"))
