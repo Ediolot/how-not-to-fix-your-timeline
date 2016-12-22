@@ -207,7 +207,7 @@
     (assert (show M34))
     )
 
-(defrule M8 ;; TODO objeto
+(defrule M8
     (show-rip)
     =>
     (assert (show M8))
@@ -236,44 +236,77 @@
     (retract ?race)
     )
 
-(defrule Q2
+(defrule Q2-A
     ?already <- (already-happened)
+    (not (have-object))
     (object (is-a PLAYER) (rept ?value))
     (test (>= ?value 3))
     =>
-    (assert (show Q2))
+    (assert (show Q2-A))
     (retract ?already)
 )
 
-(defrule Q2-A1
-    ?ans <- (answer-to Q2 1)
+(defrule Q2-B
+    ?already <- (already-happened)
+    (have-object)
+    (object (is-a PLAYER) (rept ?value))
+    (test (>= ?value 3))
+    =>
+    (assert (show Q2-B))
+    (retract ?already)
+)
+
+(defrule Q2-A-A1
+    ?ans <- (answer-to Q2-A 1)
     =>
     (assert (threat-rip))
     (retract ?ans)
     )
 
-(defrule Q2-A2
-    ?ans <- (answer-to Q2 2)
+(defrule Q2-A-A2
+    ?ans <- (answer-to Q2-A 2)
     =>
     (assert (ask-rip))
     (retract ?ans)
     )
 
-(defrule Q2-A3
-    ?ans <- (answer-to Q2 3)
+(defrule Q2-B-A1
+    ?ans <- (answer-to Q2-B 1)
+    =>
+    (assert (threat-rip))
+    (retract ?ans)
+    )
+
+(defrule Q2-B-A2
+    ?ans <- (answer-to Q2-B 2)
+    =>
+    (assert (ask-rip))
+    (retract ?ans)
+    )
+
+(defrule Q2-B-A3
+    ?ans <- (answer-to Q2-B 3)
     =>
     (assert (show-rip))
     (retract ?ans)
     )
 
-(defrule Q4
+(defrule Q4-A
+    (have-object)
     (ask-rip)
     =>
-    (assert (show Q4))
+    (assert (show Q4-A))
     )
 
-(defrule Q4-A1
-    ?ans <- (answer-to Q4 no)
+(defrule Q4-B
+    (not (have-object))
+    (ask-rip)
+    =>
+    (assert (show Q4-B))
+    )
+
+(defrule Q4-A-A1
+    ?ans <- (answer-to Q4-A 1)
     ?rip <- (ask-rip)
     =>
     (assert (threat-rip))
@@ -281,8 +314,17 @@
     (retract ?rip)
     )
 
-(defrule Q4-A2
-    ?ans <- (answer-to Q4 yes)
+(defrule Q4-B-A1
+    ?ans <- (answer-to Q4-B 1)
+    ?rip <- (ask-rip)
+    =>
+    (assert (threat-rip))
+    (retract ?ans)
+    (retract ?rip)
+    )
+
+(defrule Q4-B-A2
+    ?ans <- (answer-to Q4-B 2)
     ?rip <- (ask-rip)
     =>
     (assert (show-rip))
@@ -589,7 +631,7 @@
 (defrule Q9-A
     (where way-city)
     (object (is-a PLAYER) (madness ?value))
-    (test (< ?value 6))
+    (test (< ?value 3))
     =>
     (assert (show Q9-A))
 )
@@ -597,7 +639,7 @@
 (defrule Q9-B
     (where way-city)
     (object (is-a PLAYER) (madness ?value))
-    (test (>= ?value 6))
+    (test (>= ?value 3))
     =>
     (assert (show Q9-B))
 )
@@ -774,6 +816,7 @@
     =>
     (assert (show M56))
     (assert (where cave))
+    (inc-rept [player])
     (retract ?shoot)
     (retract ?where1)
     (retract ?where2)
@@ -1177,6 +1220,7 @@
     ?show <- (show ?q)
     (question-yes-no (name ?q) (text ?text))
     =>
+    (printout t (get-madness [player]) " => ")
     (printout t (get-rept [player]) " => ")
     (printout t ?q "-> " ?text crlf)
     (print-answers-yes-no)
@@ -1190,6 +1234,7 @@
     ?show <- (show ?q)
     (question-multi (name ?q) (text ?text) (answers $?ans))
     =>
+    (printout t (get-madness [player]) " => ")
     (printout t (get-rept [player]) " => ")
     (printout t ?q "-> " ?text crlf)
     (print-answers-multi $?ans)
@@ -1203,6 +1248,7 @@
     ?show <- (show ?q)
     (message (name ?q) (text ?text))
     =>
+    (printout t (get-madness [player]) " => ")
     (printout t (get-rept [player]) " => ")
     (printout t ?q "-> " ?text crlf)
     (readline)
@@ -1349,7 +1395,14 @@
             "Hacer caso y volver"
             "Ignorar y seguir a Rip"))
 
-    (question-multi (name Q2)
+    (question-multi (name Q2-A)
+        (text "Te cuestionas sobre lo que ocurre, ¿Que haces?")
+        (answers
+            "Amenazar"
+            "Preguntar"
+            "(Answer blocked)"))
+
+    (question-multi (name Q2-B)
         (text "Te cuestionas sobre lo que ocurre, ¿Que haces?")
         (answers
             "Amenazar"
@@ -1368,8 +1421,17 @@
     (message (name M7)
         (text "Intentas dispararle, pero fallas, resultando en que el te dispara y mueres"))
 
-    (question-yes-no (name Q4)
-        (text "¿Tienes alguna prueba?"))
+    (question-multi (name Q4-A)
+        (text "¿Tienes alguna prueba?")
+        (answers
+            "No, no tengo nada para probarlo"
+            "Si, he recogido esto antes"))
+
+    (question-multi (name Q4-B)
+        (text "¿Tienes alguna prueba?")
+        (answers
+            "No, no tengo nada para probarlo"
+            "(Answer blocked)"))
 
     (message (name M8)
         (text "Le ensenas el objeto a Rip"))
