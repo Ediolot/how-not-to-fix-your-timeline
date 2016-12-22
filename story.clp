@@ -1406,6 +1406,16 @@ organizacion encargada de mantener el orden a cualquier precio.")
     (message (name M51)
         (text "Llegais a la zona de la ciudad"))
 
+
+    (message (name M61)
+        (text "Baja un miembro de la tripulacion equipado con una pistola y el dispositivo temporal."))
+
+    (message (name M62)
+        (text "Mientras esperais sois abordados por tropas enemigas."))
+
+    (message (name M63)
+        (text "Eliminan a todos los miembros de la nave."))
+
     (message (name M48)
         (text "Le disparas"))
 
@@ -1440,25 +1450,25 @@ organizacion encargada de mantener el orden a cualquier precio.")
         (text "Te das cuenta de que la transmision es enviada por A37"))
 
     (message (name M55)
-        (text "Te das cuenta de que la transmision no es enviada por A37, sin embargo debería ser suya"))
+        (text "Te das cuenta de que la transmision no es enviada por A37, sin embargo debería ser suya."))
 
     (question-yes-no (name Q11)
         (text "Podria ser conveniente hacer caso a la transmision.  ¿Rendirse?"))
 
     (message (name M56)
-        (text "No te rindes y el caza dispara, Rip consigue activar el dispositivo a tiempo"))
+        (text "No te rindes y el caza dispara, Rip consigue activar el dispositivo a tiempo."))
 
     (message (name M57)
-        (text "Te rindes pero el caza hace caso omiso y dispara, ambos moris"))
+        (text "Te rindes pero el caza hace caso omiso y dispara, ambos moris."))
 
     (message (name M1)
-        (text "Ya ha sucedido antes"))
+        (text "Te invade la extrana sensacion de que vuelves a vivir este momento."))
 
     (message (name M2)
-        (text "Te has disparado debido a la demencia"))
+        (text "A causa de los niveles de demencia, te ves obligado a suicidarte, disparandote en la cabeza, muriendo en el acto."))
 
     (message (name M3)
-        (text "Sufres un Deja vu"))
+        (text "Sufres un Deja vu, como si hubieras vivido este exacto momento en otro tiempo."))
 
     (message (name M4)
         (text "Te encuentras dentro de una pequeña cueva, apuntando firmemente a quien en principio parece
@@ -1474,115 +1484,115 @@ y volver a la nave.")
             "Ignoras la transmision y escuchas lo que tiene que decir."))
 
     (question-multi (name Q2-A)
-        (text "Te cuestionas sobre lo que ocurre, ¿Que haces?")
+        (text "Te cuestionas sobre lo que ocurre, ¿Como continuas?")
         (answers
-            "Amenazar"
-            "Preguntar"
+            "Amenazar a Rip"
+            "Preguntar a Rip"
             "(Answer blocked)"))
 
     (question-multi (name Q2-B)
-        (text "Te cuestionas sobre lo que ocurre, ¿Que haces?")
+        (text "Te cuestionas sobre lo que ocurre, ¿Como continuas?")
         (answers
-            "Amenazar"
-            "Preguntar"
-            "Enseñar objeto"))
+            "Amenazar a Rip"
+            "Preguntar a Rip"
+            "Enseñas el objeto a Rip"))
 
     (message (name M34)
-        (text "Le preguntas a Rip sobre lo que esta sucediendo"))
+        (text "Le preguntas a Rip sobre lo que esta sucediendo, debido a que te encuentras confuso sobre la actual situacion."))
 
     (message (name M5)
-        (text "Amenazas a Rip, debido a que desconfias"))
+        (text "Amenazas a Rip, debido a que desconfias de su palabra."))
 
     (message (name M6)
-        (text "Se palpa la tension del ambiente"))
+        (text "Se palpa la tension del ambiente, ninguno confia en el otro, y se observan los movimientos con detalle."))
 
     (message (name M7)
-        (text "Intentas dispararle, pero fallas, resultando en que el te dispara y mueres"))
+        (text "Intentas dispararle, pero fallas, aprovechando el momento, saca su revolver de plasma y realiza un disparo certero en tu pecho."))
 
     (question-multi (name Q4-A)
-        (text "¿Tienes alguna prueba?")
+        (text "¿Tienes alguna prueba de que lo que dices es cierto?")
         (answers
-            "No, no tengo nada para probarlo"
-            "Si, he recogido esto antes"))
+            "No, no tengo nada para probarlo."
+            "Si, he recogido esto antes."))
 
     (question-multi (name Q4-B)
-        (text "¿Tienes alguna prueba?")
+        (text "¿Tienes alguna prueba de que lo que dices es cierto?")
         (answers
-            "No, no tengo nada para probarlo"
+            "No, no tengo nada para probarlo."
             "(Answer blocked)"))
 
     (message (name M8)
-        (text "Le ensenas el objeto a Rip"))
+        (text "Le ensenas el objeto que recogiste a Rip."))
 
     (message (name M9)
-        (text "Rip piensa que sabes la verdad"))
+        (text "Rip al cotejar el objeto con Gideon, confirma que dices la verdad."))
 
     (question-yes-no (name Q5)
-        (text "¿Te esta afectando el dispositivo?"))
+        (text "¿Rip te pregunta si estas bajo los efectos del dispositivo temporal?"))
 
     (message (name M10)
-        (text "Explicacion del objeto"))
+        (text "Es culpa de este artefacto, algún tipo de tecnologia antigua, no se de que raza proviene.. ¿Tienes alguna idea?"))
 
     (question-multi (name Q6)
         (text "¿Sabes que raza ha creado semejante dispositivo?")
         (answers
-            "Puede ser la X o la Y"
-            "Creo que es la X"))
+            "Solo hay dos razas con ese capacidad, la raza X y la raza Y, no sabria decirte cual nos mataria antes al confrontarlos."
+            "Sus creadores son los Xnianos, una antigua raza que se creia estaba extinta."))
 
     (message (name M11)
-            (text "Gideon nos informa que ha sido la raza X"))
+            (text "Gideon nos informa que ha sido la raza X."))
 
     (question-multi (name Q7)
-        (text "Crees que la X tiene posiblidadeds, pero la Y también ha hecho cosas raras")
+        (text "Crees que la X tiene posiblidadeds, pero la Y tambien es capaz.")
         (answers
-            "Confias que e sla X"
+            "Confias que es la X"
             "Te decantas por la Y"))
 
     (message (name M12)
-        (text "Llegas al planeta"))
+        (text "Tu tripulacion y tu montais en la nave y os encaminais hacia el planeta Nebulon."))
 
     (message (name M13)
-        (text "El planeta esta desierto"))
+        (text "Una vez aterrizada la nave, ves un paraje rocoso y desertico, parece que no esta habitado."))
 
     (question-multi (name Q14)
         (text "¿Quien baja de la nave?")
         (answers
-            "Deberias enviar a un tripulante"
-            "Deberias bajar a mirar"
-            "Deberia ir Rip a mirar"))
+            "Deberias enviar a un tripulante."
+            "Deberias bajar a mirar."
+            "Deberia ir Rip a mirar."))
 
     (message (name M14)
-        (text "Rip ha bajado a mirar"))
+        (text "Rip ha bajado a mirar, solamente equipado con el dispositivo temporal y su arma."))
 
     (message (name M15)
-        (text "Rip se ve forzado a activar el objeto"))
+        (text "Rip se ve forzado a activar el dispositivo temporal, tras la aparicion de un numero muy superior de enemigos."))
 
     (message (name M16)
-        (text "Bajas tu a mirar"))
+        (text "Bajas tu a mirar, equipado con el dispositivo temporal y tu fusil de asalto."))
 
     (message (name M17)
-        (text "Encuentras una trampa"))
+        (text "Pisas una mina, pero logras que no explote por el momento, e intentas desactivarla...."))
 
     (message (name M18)
-        (text "Se activa una trampa y mueres"))
+        (text "Cortas el cable erroneo de la trampa y mueres."))
 
     (message (name M19)
-        (text "Desactivas la trampa sin problemas"))
+        (text "Cortas todos los cables que ves y de alguna manera, la bomba se desactiva."))
 
     (question-multi (name Q15)
         (text "Has avistado una patrulla, ¿Que haces?")
         (answers
-            "Haces señales"
-            "La eliminas y te infiltras"))
+            "Haces señales."
+            "La eliminas y te infiltras."))
 
     (message (name M20)
-        (text "La eliminas y logras infiltrarte"))
+        (text "La eliminas y logras infiltrarte."))
 
     (message (name M21)
-        (text "Le haces señales a la patrulla"))
+        (text "Le haces señales a la patrulla, los cuales te localizan al momento."))
 
     (message (name M22)
-        (text "Mueres acribillado, pensaron que eras un enemigo"))
+        (text "Mueres acribillado, pensaron que eras un enemigo y un disparo preventivo te alcanza en un punto vital."))
 
     (question-yes-no (name Q16)
         (text "Encuentras un Xniano en una celda, el cual te pide educadamente que lo liberes. ¿Lo liberas?"))
@@ -1594,23 +1604,23 @@ y volver a la nave.")
         (text "Activas el objeto"))
 
     (message (name M24)
-        (text "Te rindes ante los guardias"))
+        (text "Te rindes ante los guardias, al verte muy superado en numero e intentas comunicarte."))
 
     (message (name M25)
-        (text "Mueres a manos de los guardias"))
+        (text "Mueres a manos de los guardias, que pensaron que eras un miembro de los Ynianos."))
 
     (question-yes-no (name Q18)
         (text "El prisionero te cuenta su historia de cientifico y como perdio el objeto ¿Se lo entregas?"))
 
     (message (name M26)
-        (text "Al no entregarselo, saca un cuchillo para intentar que le devuelvas el objeto por la fuerza"))
+        (text "Al no entregarselo, saca un cuchillo para intentar que le devuelvas el objeto por la fuerza."))
 
     (message (name M27)
-        (text "Forcejeas y te roba el objeto, ademas te hiere de gravedad y mueres terriblemente"))
+        (text "Forcejeas y te roba el objeto, ademas te hiere de gravedad y mueres terriblemente."))
 
     (message (name M28)
-        (text "Te lleva ante el lider de los Xnianos"))
+        (text "Te lleva ante el lider de los Xnianos, que se encuentra en la sala del trono."))
 
     (message (name M29)
-        (text "Su lider te agradece tu esfuerzo. ¡Has salvado la linea temporal!"))
+        (text "Su lider te agradece tu esfuerzo y te otorga riquezas. ¡Has salvado la linea temporal!"))
 )
