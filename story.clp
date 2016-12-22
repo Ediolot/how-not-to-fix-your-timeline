@@ -1277,8 +1277,7 @@
     (declare (salience 9))
     (end)
     =>
-    (clear)
-    (printout t "END")
+    (halt)
 )
 
 (defrule ask-question-yes-no
@@ -1286,9 +1285,7 @@
     ?show <- (show ?q)
     (question-yes-no (name ?q) (text ?text))
     =>
-    (printout t (get-madness [player]) " => ")
-    (printout t (get-rept [player]) " => ")
-    (printout t ?q "-> " ?text crlf)
+    (printout t ?text crlf)
     (print-answers-yes-no)
 
     (assert (answer-to ?q (read)))
@@ -1300,9 +1297,7 @@
     ?show <- (show ?q)
     (question-multi (name ?q) (text ?text) (answers $?ans))
     =>
-    (printout t (get-madness [player]) " => ")
-    (printout t (get-rept [player]) " => ")
-    (printout t ?q "-> " ?text crlf)
+    (printout t ?text crlf)
     (print-answers-multi $?ans)
 
     (assert (answer-to ?q (read)))
@@ -1314,9 +1309,7 @@
     ?show <- (show ?q)
     (message (name ?q) (text ?text))
     =>
-    (printout t (get-madness [player]) " => ")
-    (printout t (get-rept [player]) " => ")
-    (printout t ?q "-> " ?text crlf)
+    (printout t ?text crlf)
     (readline)
 
     (retract ?show)
