@@ -1,14 +1,12 @@
 
-;; Añadir los type, default si fuera necesario y allowed
-
 ;;==============================================================================
 
 (defclass PLAYER (is-a USER)
     (multislot user-name)
-    (slot dead)
-    (slot rept)
-    (slot madness)
-    (slot karma)
+    (slot dead    (type SYMBOL) (default no) (allowed-symbols yes no))
+    (slot rept    (type NUMBER) (default 0))
+    (slot madness (type NUMBER) (default 0))
+    (slot karma   (type NUMBER) (default 0))
 )
 
 (deffunction get-user-name(?p)
@@ -65,28 +63,25 @@
 )
 
 (definstances players
-    (player of PLAYER (dead no) (rept 0) (madness 0) (karma 0))
+    (player of PLAYER)
 )
 
 ;;==============================================================================
 
 (deftemplate question-yes-no
-    (slot type (default yes-no))
-    (slot name)
-    (slot text)
+    (slot name (type SYMBOL))
+    (slot text (type STRING))
 )
 
 (deftemplate question-multi
-    (slot type (default multi))
-    (slot name)
-    (slot text)
-    (multislot answers)
+    (slot name (type SYMBOL))
+    (slot text (type STRING))
+    (multislot answers (type STRING))
 )
 
 (deftemplate message
-    (slot type (default message))
-    (slot name)
-    (slot text)
+    (slot name (type SYMBOL))
+    (slot text (type STRING))
 )
 
 (deffunction print-answers-multi($?ans)
