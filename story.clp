@@ -1333,61 +1333,77 @@
 (deffacts QA
 
     (message (name M30)
-        (text "Vuelves a las nave imperial"))
+        (text "Llevas al hombre como prisiones y te pones en marcha hacia el punto de encuentro."))
 
     (question-yes-no (name Q8)
-        (text "Te das cuenta de que las estrellas están cambiadas, ¿Miras de nuevo?"))
+        (text "Ya es bastante tarde, hechas una mirada al cielo, pero por alguna extraña razon
+las estrellas no estan donde deberian estar. Apartas la vista y sigues caminando, pero no puedes
+eviar pensar en el tema. ¿Vuelves a mirar al cielo?"))
 
     (message (name M31)
-        (text "Te olvidas del tema y sigues caminando"))
+        (text "Consigues olvidar el tema, das por sentado que tu memoria te ha jugado una mala pasada
+y sigues caminando."))
 
     (message (name M32)
-        (text "Vuelves a mirar"))
+        (text "Vuelves a mirar al cielo, no entiendes como es posible, sabes perfectamente que
+la composicion de las estrallas es erronea."))
 
     (message (name M33)
-        (text "Tropiezas y te quedas inconsciente"))
+        (text "No has podido tener peor mala suerte. Mientras mirabas arriba, tu prisionero te
+coge desprevenido y logra tirate al suelo, caes sobre una piedra y quedas inconsciente."))
 
     (message (name M35)
-        (text "Has muerto del golpe. END"))
+        (text "Nunca pensaste que esto acabaria asi, pero el golpe ha sido muy severo, mueres de la contusion."))
 
     (message (name M36)
-        (text "El objeto ha sido activado mientras estabas inconsciente. RESET"))
+        (text "Despiertas despues de haber estado en el suelo por horas, no hay nada claro, todo esta
+borroso, comienzas a experimentar una extraña sensasion."))
 
     (message (name M37)
-        (text "Te reunes con la patrulla"))
+        (text "Llegas al punto de reunion fijado con tu patrulla anteriormente."))
 
     (message (name M38)
-        (text "Falta A37"))
+        (text "Te das cuenta en seguida de la ausencia de tu compañero de patrulla, A37."))
 
     (message (name M39)
-        (text "Vuelves a la nave"))
+        (text "Vuelves a la nave junto a tu patrulla y el prisionero. No tardais mucho en llegar.
+Una vez alli soltais al prisionero en los calabozos, guardais el objeto que portaba bajo seguridad
+y os tomais un tiempo de descanso mientras la nave imperial pone rumbo a casa."))
 
     (message (name M40)
-        (text "Vuelves con la nave. END"))
+        (text "Nada extraño sucede como era de esperar."))
 
     (message (name M41)
-        (text "Suena la alarma, hay un problema de sobrecarga"))
+        (text "De forma inesperada suena la alarma, te acercas al monitor mas cercano y ves que
+en algunas partes de la nave se estan acumulando una gran cantidad de energia."))
 
     (question-multi (name Q13)
-        (text "El problema puede estar en la sala de generadores o en la sala de escudos, a cual vas ?")
+        (text "El ordenador informa que las zonas mas sensibles son la sala de escudos y la sala de
+generadores. Te reunes con tu patrulla.")
         (answers
-            "Sala de escudos"
-            "Sala de generadores"))
+            "Dirigirse a la sala de escudos"
+            "Dirigirse a la sala de los generadores"))
 
     (message (name M42)
-        (text "Vas a comprobar los generadores"))
+        (text "Vas con tu patrulla de camino a la sala de los generadores, la alarma sigue activa
+y parece que el proceso de acumulacion de energia continua."))
 
     (message (name M43)
-        (text "Muere A37 por una explosión de camino a la sala"))
+        (text "Una explosion repentina en los pasillos se lleva consigo a tu compañero, A37,
+la severidad del problema de sobrecarga continua aumentado. Oyes mas explosiones de los pasillos
+y salas contiguas, te diriges lo mas rapido posible a la sala de los generadores."))
 
     (message (name M44)
-        (text "El objeto es activado por la sobrecarga"))
+        (text "No te explicas que es lo que puede estar sucediendo, te comienza a invadir una
+sensasion extraña."))
 
     (message (name M45)
-        (text "Mueres por una explosión de camino a la sala"))
+        (text "Una explosion repentina en los pasillos provoca que te separes del suelo
+y acabes destrozado varios metros mas alante, no entiendes que es lo que esta provocando
+los problemas, pero en este punto, da igual."))
 
     (message (name M46)
-        (text "Vas a comprobar los escudos"))
+        (text "Te diriges a comprobar la sala de escudos con tu patrulla."))
 
     (question-multi (name Q9-A)
         (text "Sigues al hombre, su nombre es Rip, a la zona de la ciudad mientras te explica que es parte de una vieja
@@ -1404,52 +1420,71 @@ organizacion encargada de mantener el orden a cualquier precio.")
             "Crees que la mejor solucion seria dispararle y volver con el objeto"))
 
     (message (name M51)
-        (text "Llegais a la zona de la ciudad"))
+        (text "Continuais a la zona de la ciudad."))
 
     (message (name M48)
-        (text "Le disparas"))
+        (text "Sin previo aviso, levantas el arma y antes la sorpresa de Rip, aprietas el gatillo."))
 
     (message (name M49)
-        (text "El ha sido mas rapido y ha dispardo antes"))
+        (text "A pesar de haber atacado por sorpresa, parece ser que no le ganas a Rip en experiencia
+que nada mas darse cuenta de lo que ocurria, saco un arma, oculta a plena vista, con la que te dispara
+de lleno. El ha sido mas rapido y caes el suelo instantaneamente."))
 
     (message (name M50)
-        (text "El ha sido mas rapido y consigue activar el objeto"))
+        (text "A pesar de haber atacado por sorpresa, parece ser que no le ganas a Rip en experiencia
+que nada mas darse cuenta de lo que ocurria ha activado el objeto que llevaba consigo de forma casi
+inmediata. Despues de la activacion te invade una extraña sensasion.))
 
     (question-yes-no (name Q12)
-        (text "Llegas a la ciudad y entrais a un sotano propiedad de Rip, recojes un objeto ?"))
+        (text "Llegais a la ciudad, parece casi una fortaleza, llena de edificios modernos, contrasta
+con la zona tropical que la rodea. Sigues a Rip, que te conduce a un pequeño sotano de su propiedad,
+parece un laboratorio de pelicula. Hay todo tipo de objetos. ¿Coges alguno a escondidas?"))
 
     (message (name M58)
-        (text "Recoges el objeto"))
+        (text "Recoges el objeto discretamente"))
 
     (message (name M59)
-        (text "La nave a la que perteneces realiza un bombardeo orbital a tu posición"))
+        (text "Antes de que Rip pueda explicar nada, tu radio vuelve a activarse, una transmision te avisa
+de que tus compañeros son conscientes de tu traicion y no hay perdon para los traidores. Han comenzado un
+bombardeo orbital sobre tu posicion, no quiere que continues con vida, no quieren testigos y por seguro
+tampoco les interesa que Rip continue respirando."))
 
     (message (name M60)
-        (text "Rip consigue activar el dispositivo a tiempo"))
+        (text "Con muchisima suerte Rip consigue activar el dispositivo que antes llevaba consigo.
+Te invade una sensasion extraña."))
 
     (question-yes-no (name Q10)
-        (text "La zona de la ciudad esta destruida, pero parece que Rip tiene alli su nave, recojes un objeto de su interior?"))
+        (text "Has llegado a la zona de la ciudad, pero no hay ciudad ninguna. Rip te cuenta que hace muchos
+años que aqui solo hay un gran agujero fruto de antiguos conflictos.Sabes que la ciudad deberia estar aqui,
+pero sigues a Rip en silencio. Tiene una nave escondida entre los alrededores, subis a bordo y la encuentras
+repleta de todo tipo de objetos extraños, ¿ Robas alguno cuando Rip no esta mirando ?"))
 
     (message (name M52)
-        (text "Recoges el objeto"))
+        (text "Recoges un objeto de la nave. Rip parece no darse cuenta."))
 
     (message (name M53)
-        (text "Despegas en la nave y recibes una transmision, 'sino aterrizais os vuelan'"))
+        (text "Despegas en la nave con Rip, quiere mostrarte que es lo que esta sucediendo de primera mano, pero
+antes de salir de la atmosfera recibes otra transmision, esta vez a traves de la nave.
+- Nave no identificada, aterrice en zona segura, esta ahora mismo bajo el control del Imperio. - Se escucha por radio"))
 
     (message (name M54)
-        (text "Te das cuenta de que la transmision es enviada por A37"))
+        (text "Despues de escuchar la transmision, reconoces que la voz es de tu compañero de patrulla, A37."))
 
     (message (name M55)
-        (text "Te das cuenta de que la transmision no es enviada por A37, sin embargo debería ser suya"))
+        (text "Despues de escuchar la transmision, reconoces que la vez no es la de tu compañero de patrulla, A37, aunque
+deberia ser ese su puesto."))
 
     (question-yes-no (name Q11)
-        (text "Podria ser conveniente hacer caso a la transmision.  ¿Rendirse?"))
+        (text "Podria ser conveniente hacer caso a la transmision. ¿Rendirse?"))
 
     (message (name M56)
-        (text "No te rindes y el caza dispara, Rip consigue activar el dispositivo a tiempo"))
+        (text "Ignoras la transmision y eres interceptado por un caza del imperio, pero con un golpe de suerte,
+Rip consigue activar el dispositivo a tiempo."))
 
     (message (name M57)
-        (text "Te rindes pero el caza hace caso omiso y dispara, ambos moris"))
+        (text "Haces caso a la transmision y anunciais vuestra rendicion por radio. El Imperio parece ignorar
+la transmision por completo y eres interceptado por unos de sus cazas de forma inmediata, la nave de Rip es destruida
+en el acto con vosotros aun dentro."))
 
     (message (name M1)
         (text "Ya ha sucedido antes"))
