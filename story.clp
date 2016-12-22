@@ -918,7 +918,7 @@
     (where way-imp-ship)
     =>
     (assert (show M30))
-    (dec-karma [player])()
+    (dec-karma [player])
     (assert (go check-point))
 )
 
@@ -1316,7 +1316,14 @@
     (printout t crlf ?text crlf crlf)
     (print-answers-yes-no)
 
-    (assert (answer-to ?q (read)))
+    (bind ?response (read))
+    (while (and (neq ?response yes)
+                (neq ?response no))
+               (print-answers-yes-no)
+               (bind ?response (read))
+            )
+
+    (assert (answer-to ?q ?response))
     (retract ?show)
 )
 
