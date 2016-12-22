@@ -55,6 +55,12 @@
     (send ?p put-karma ?karma)
 )
 
+(deffunction dec-karma(?p)
+    (bind ?karma (get-karma ?p))
+    (bind ?karma (- ?karma 1))
+    (send ?p put-karma ?karma)
+)
+
 (deffunction is-alive(?p)
     (bind ?dead (send ?p get-dead))
     (bind ?return yes)
@@ -255,6 +261,7 @@
     ?ans <- (answer-to Q2-A 1)
     =>
     (assert (threat-rip))
+    (dec-karma [player])
     (retract ?ans)
     )
 
@@ -269,6 +276,7 @@
     ?ans <- (answer-to Q2-B 1)
     =>
     (assert (threat-rip))
+    (dec-karma [player])
     (retract ?ans)
     )
 
@@ -291,6 +299,7 @@
     (ask-rip)
     =>
     (assert (show Q4-A))
+    (inc-karma [player])
     )
 
 (defrule Q4-B
@@ -298,6 +307,7 @@
     (ask-rip)
     =>
     (assert (show Q4-B))
+    (inc-karma [player])
     )
 
 (defrule Q4-A-A1
@@ -372,6 +382,7 @@
     (assert (its-x))
     (retract ?ans)
     (retract ?know)
+    (inc-karma [player])
     )
 
 (defrule Q7
@@ -476,6 +487,7 @@
     =>
     (assert (show M61))
     (assert (explore))
+    (dec-karma [player])
     )
 
 (defrule M62
@@ -506,6 +518,7 @@
     =>
     (assert (show M14))
     (assert (rip-goes))
+    (dec-karma [player])
     )
 
 (defrule M15
@@ -531,6 +544,7 @@
     (assert (show M16))
     (assert (you-go))
     (retract ?member)
+    (inc-karma [player])
     )
 
 (defrule M17
@@ -575,6 +589,7 @@
     (assert (show M21))
     (retract ?signals)
     (assert (seen-by-patrol))
+    (inc-karma [player])
     )
 
 (defrule M22
@@ -676,7 +691,7 @@
     =>
     (assert (show M48))
     (inc-madness [player])
-
+    (dec-karma [player])
     (if (= (random 0 1) 0)
         then
             (assert (rip faster)) ; 33%
@@ -996,6 +1011,7 @@
     (assert (show M37))
     (assert (where check-point))
     (assert (go ship))
+    (inc-karma [player])
 )
 
 (defrule M38
@@ -1079,6 +1095,7 @@
     (assert (free-him))
     (assert (inside))
     (retract ?cells)
+    (inc-karma [player])
     )
 
 (defrule Q16-A2
@@ -1086,6 +1103,7 @@
     =>
     (retract ?ans)
     (assert (ignore-him))
+    (dec-karma [player])
     )
 
 (defrule Q17
