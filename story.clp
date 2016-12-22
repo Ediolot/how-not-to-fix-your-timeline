@@ -801,10 +801,13 @@
     )
 
 (defrule Q16-A1
+    ?cells <- (cells)
     ?ans <- (answer-to Q16 yes)
     =>
     (retract ?ans)
     (assert (free-him))
+    (assert (inside))
+    (retract ?cells)
     )
 
 (defrule Q16-A2
@@ -927,6 +930,69 @@
     =>
     (assert (show M25))
     (kill [player])
+    (assert (end))
+    )
+
+(defrule Q18
+    (inside)
+    (where planet)
+    ?free <- (free-him)
+    =>
+    (assert (show Q18))
+    (retract ?free)
+    )
+
+(defrule Q18-A1
+    ?ans <- (answer-to Q18 yes)
+    =>
+    (retract ?ans)
+    (assert (leader))
+
+    )
+
+
+(defrule Q18-A2
+    ?ans <- (answer-to Q18 no)
+    =>
+    (retract ?ans)
+    (assert (steal-and-murder))
+)
+
+(defrule M26
+    (where planet)
+    (inside)
+    ?steal <- (steal-and-murder)
+    =>
+    (assert (show M26))
+    (retract ?steal)
+    (assert (stabs-you))
+    )
+
+(defrule M27
+    (where planet)
+    (inside)
+    (stabs-you)
+    =>
+    (assert (show M27))
+    (kill [player])
+    (assert (end))
+    )
+(defrule M28
+    (where planet)
+    (inside)
+    ?lead <- (leader)
+    =>
+    (assert (show M28))
+    (retract ?lead)
+    (assert (thankful))
+    )
+
+(defrule M29
+    (where planet)
+    (inside)
+    (thankful)
+    =>
+    (assert (show M29))
     (assert (end))
     )
 
