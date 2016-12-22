@@ -1372,16 +1372,18 @@
         (text "Vas a comprobar los escudos"))
 
     (question-multi (name Q9-A)
-        (text "Escuchas lo que te dice mientras vais a la zona de la ciudad")
+        (text "Sigues al hombre, su nombre es Rip, a la zona de la ciudad mientras te explica que es parte de una vieja
+organizacion encargada de mantener el orden a cualquier precio.")
         (answers
-            "Acompañarle a la ciudad"
+            "Continuas con Rip a la ciudad"
             "(Answer blocked)"))
 
     (question-multi (name Q9-B)
-        (text "Escuchas lo que te dice mientras vais a la zona de la ciudad, sin embargo, después de lo que ha pasado no sabes qué pensar")
+        (text "Sigues al hombre, su nombre es Rip, a la zona de la ciudad mientras te explica que es parte de una vieja
+organizacion encargada de mantener el orden a cualquier precio.")
         (answers
-            "Acompañarle a la ciudad"
-            "Dispararle y volver sólo con el objeto"))
+            "Continuas con Rip a la ciudad"
+            "Crees que la mejor solucion seria dispararle y volver con el objeto"))
 
     (message (name M51)
         (text "Llegais a la zona de la ciudad"))
@@ -1441,13 +1443,17 @@
         (text "Sufres un Deja vu"))
 
     (message (name M4)
-        (text "Escuchas a Rip"))
+        (text "Te encuentras dentro de una pequeña cueva, apuntando firmemente a quien en principio parece
+un delincuente bastante comun sosteniendo un objeto extraño.
+- ¿Estas seguro de lo que estas haciend ? - Pregunta."))
 
     (question-multi (name Q1)
-        (text "Escuchas una transmision, ¿Que haces?")
+        (text "Antes de que te de tiempo a procesar la extraña pregunta del hombre, la radio empieza a sonar.
+se trata de una transmision que indica a todos los miembros de las distintas patrullas que vuelvan a reunirse
+y volver a la nave.")
         (answers
-            "Hacer caso y volver"
-            "Ignorar y seguir a Rip"))
+            "Decides obedecer a la transmision y vuelves a la nave junto con el hombre como prisionero."
+            "Ignoras la transmision y escuchas lo que tiene que decir."))
 
     (question-multi (name Q2-A)
         (text "Te cuestionas sobre lo que ocurre, ¿Que haces?")
