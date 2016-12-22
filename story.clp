@@ -309,15 +309,6 @@
     (inc-karma [player])
     )
 
-(defrule Q4-A-A1
-    ?ans <- (answer-to Q4-A 1)
-    ?rip <- (ask-rip)
-    =>
-    (assert (threat-rip))
-    (retract ?ans)
-    (retract ?rip)
-    )
-
 (defrule Q4-B-A1
     ?ans <- (answer-to Q4-B 1)
     ?rip <- (ask-rip)
@@ -327,8 +318,17 @@
     (retract ?rip)
     )
 
-(defrule Q4-B-A2
-    ?ans <- (answer-to Q4-B 2)
+(defrule Q4-A-A1
+    ?ans <- (answer-to Q4-A 1)
+    ?rip <- (ask-rip)
+    =>
+    (assert (threat-rip))
+    (retract ?ans)
+    (retract ?rip)
+    )
+
+(defrule Q4-A-A2
+    ?ans <- (answer-to Q4-A 2)
     ?rip <- (ask-rip)
     =>
     (assert (show-rip))
@@ -508,6 +508,7 @@
     =>
     (assert (show M63))
     (kill [player])
+    (assert (end))
     )
 
 (defrule M14
@@ -553,7 +554,7 @@
     =>
     (assert (show M17))
     (retract ?you)
-    (if (= (random 0 2) 0)
+    (if (= (random 0 3) 0)
         then
             (assert (explodes))
         else
@@ -568,6 +569,7 @@
     =>
     (assert (show M18))
     (kill [player])
+    (assert (end))
 )
 
 (defrule M19
@@ -754,6 +756,7 @@
     =>
     (assert (show M52))
     (assert (have-object))
+    (dec-karma [player])
     (retract ?pick)
 )
 
@@ -874,6 +877,7 @@
     (city not-destroyed)
     =>
     (assert (show M58))
+    (dec-karma [player])
     (assert (have-object))
     (retract ?pick)
 )
@@ -914,6 +918,7 @@
     (where way-imp-ship)
     =>
     (assert (show M30))
+    (dec-karma [player])()
     (assert (go check-point))
 )
 
@@ -1570,7 +1575,7 @@ y volver a la nave.")
         (text "Le ensenas el objeto que recogiste a Rip."))
 
     (message (name M9)
-        (text "Rip al cotejar el objeto con Gideon, confirma que dices la verdad."))
+        (text "Rip al cotejar el objeto con Gideon, la inteligencia artificial al mando de su nave, confirma que dices la verdad."))
 
     (question-yes-no (name Q5)
         (text "¿Rip te pregunta si estas bajo los efectos del dispositivo temporal?"))
@@ -1585,7 +1590,7 @@ y volver a la nave.")
             "Sus creadores son los Xnianos, una antigua raza que se creia estaba extinta."))
 
     (message (name M11)
-            (text "Gideon nos informa que ha sido la raza X."))
+            (text "Gideon encuentra evidencias que prueban que los Xnianos son los creador del dispositivo."))
 
     (question-multi (name Q7)
         (text "Crees que la X tiene posiblidadeds, pero la Y tambien es capaz.")
