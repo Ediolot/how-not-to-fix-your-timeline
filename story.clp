@@ -65,7 +65,7 @@
 )
 
 (definstances players
-    (player of PLAYER (dead no) (rept 1) (madness 0) (karma 0))
+    (player of PLAYER (dead no) (rept 0) (madness 0) (karma 0))
 )
 
 ;;==============================================================================
@@ -121,7 +121,7 @@
     (readline)
 )
 
-;; Decidir preguntas
+;; CAVE
 
 (defrule M1
     (declare (salience 8))
@@ -206,7 +206,7 @@
     (assert (show M34))
     )
 
-(defrule M8
+(defrule M8 ;; TODO objeto
     (show-rip)
     =>
     (assert (show M8))
@@ -233,33 +233,6 @@
     (assert (show M11))
     (assert (on-ship))
     (retract ?race)
-    )
-
-(defrule M12
-    ?where <- (where cave)
-    (on-ship)
-    =>
-    (assert (show M12))
-    (retract ?where)
-    (assert (where planet))
-)
-
-(defrule M13
-    (where planet)
-    (on-ship)
-    =>
-    (assert (show M13))
-    )
-
-    (defrule M3
-        ?already <- (already-happened)
-        (or (test (= (get-rept [player]) 1))
-            (test (= (get-rept [player]) 2)))
-        =>
-        (assert (show M3))
-        (retract ?already)
-        (inc-madness [player])
-        (assert (deja-vu))
     )
 
 (defrule Q2
@@ -387,6 +360,35 @@
     (retract ?ans)
     )
 
+;; NAVE
+
+(defrule M12
+    ?where <- (where cave)
+    (on-ship)
+    =>
+    (assert (show M12))
+    (retract ?where)
+    (assert (where planet))
+)
+
+(defrule M13
+    (where planet)
+    (on-ship)
+    =>
+    (assert (show M13))
+    )
+
+    (defrule M3
+        ?already <- (already-happened)
+        (or (test (= (get-rept [player]) 1))
+            (test (= (get-rept [player]) 2)))
+        =>
+        (assert (show M3))
+        (retract ?already)
+        (inc-madness [player])
+        (assert (deja-vu))
+    )
+
 (defrule Q14
     (on-ship)
     (where planet)
@@ -395,6 +397,7 @@
     )
 
 (defrule Q14-A1
+    (where planet)
     ?ship <- (on-ship)
     ?ans <- (answer-to Q14 1)
     =>
@@ -403,6 +406,221 @@
     (retract ?ans)
     (retract ?ship)
     )
+
+(defrule Q14-A2
+    (where planet)
+    ?ship <- (on-ship)
+    ?ans <- (answer-to Q14 2)
+    =>
+    (assert (you-member))
+    (assert (outside))
+    (retract ?ans)
+    (retract ?ship)
+    )
+
+(defrule Q14-A3
+    (where planet)
+    ?ship <- (on-ship)
+    ?ans <- (answer-to Q14 3)
+    =>
+    (assert (rip-member))
+    (assert (outside))
+    (retract ?ans)
+    (retract ?ship)
+    )
+
+;; EXTERIOR
+
+(defrule M61
+    (where planet)
+    (crew-member)
+    (outside)
+    =>
+    (assert (show M61))
+    (assert (explore))
+    )
+
+(defrule M62
+    (where planet)
+    (crew-member)
+    (outside)
+    ?exp <- (explore)
+    =>
+    (assert (show M62))
+    (retract ?exp)
+    (assert (patrol-near))
+    )
+
+(defrule M63
+    (outside)
+    (where planet)
+    ?lost <- (crew-member)
+    ?patr <- (patrol-near)
+    =>
+    (assert (show M63))
+    (kill [player])
+    )
+
+(defrule M14
+    (where planet)
+    (outside)
+    (rip-member)
+    =>
+    (assert (show M14))
+    (assert (rip-goes))
+    )
+
+(defrule M15
+    ?member <- (rip-member)
+    ?goes <- (rip-goes)
+    ?where <- (where planet)
+    ?outside <- (outside)
+    =>
+    (assert (show M15))
+    (retract ?member)
+    (retract ?goes)
+    (retract ?where)
+    (retract ?outside)
+    (assert (where cave))
+    (inc-rept [player])
+    )
+
+(defrule M16
+    (outside)
+    (where planet)
+    ?member <- (you-member)
+    =>
+    (assert (show M16))
+    (assert (you-go))
+    (retract ?member)
+    )
+
+(defrule M17
+    (outside)
+    (where planet)
+    ?you <- (you-go)
+    =>
+    (assert (show M17))
+    (retract ?you)
+    (if (= (random 0 2) 0)
+        then
+            (assert (explodes))
+        else
+            (assert (disabled))
+    )
+)
+
+(defrule M18
+    (outside)
+    (where planet)
+    (explodes)
+    =>
+    (assert (show M18))
+    (kill [player])
+)
+
+(defrule M19
+    (outside)
+    (where planet)
+    ?dis <- (disabled)
+    =>
+    (assert (show M19))
+    (retract ?dis)
+    (assert (safe-for-now))
+    )
+
+(defrule M21
+    (outside)
+    (where planet)
+    ?signals <- (signals)
+    =>
+    (assert (show M21))
+    (retract ?signals)
+    (assert (seen-by-patrol))
+    )
+
+(defrule M22
+    (outside)
+    (where planet)
+    (seen-by-patrol)
+    =>
+    (assert (show M22))
+    (kill [player])
+    (assert (end))
+    )
+
+(defrule M20
+    ?out <- (outside)
+    (where planet)
+    ?kill <- (kill-and-sneak)
+    =>
+    (assert (show M20))
+    (retract ?out)
+    (retract ?kill)
+    (assert (cells))
+    )
+
+(defrule Q15
+    (outside)
+    (where planet)
+    ?safe <- (safe-for-now)
+    =>
+    (assert (show Q15))
+    (retract ?safe)
+    )
+
+(defrule Q15-A1
+    ?ans <- (answer-to Q15 1)
+    =>
+    (retract ?ans)
+    (assert (signals))
+    )
+
+(defrule Q15-A2
+    ?ans <- (answer-to Q15 2)
+    =>
+    (retract ?ans)
+    (assert (kill-and-sneak))
+    )
+
+;; CAMINO A LA CIUDAD
+
+(defrule Q9-A
+    (where way-city)
+    (object (is-a PLAYER) (madness ?value))
+    (test (< ?value 6))
+    =>
+    (assert (show Q9-A))
+)
+
+(defrule Q9-B
+    (where way-city)
+    (object (is-a PLAYER) (madness ?value))
+    (test (>= ?value 6))
+    =>
+    (assert (show Q9-B))
+)
+
+(defrule Q9-A-A1
+    ?ans <- (answer-to Q9-A 1)
+    =>
+    (assert (go city-zone))
+    (retract ?ans)
+)
+
+(defrule Q9-B-A1
+    ?ans <- (answer-to Q9-A 1)
+    =>
+    (assert (go city-zone))
+    (retract ?ans)
+)
+
+(defrule Q9-B-A2
+    ?ans <- (answer-to Q9-A 2)
+    =>
+    (assert (shoot rip))
+    (retract ?ans)
+)
 
 ;; CAMINO NAVE IMP
 
