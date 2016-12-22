@@ -65,7 +65,7 @@
 )
 
 (definstances players
-    (player of PLAYER (dead no) (rept 0) (madness 0) (karma 0))
+    (player of PLAYER (dead no) (rept 1) (madness 0) (karma 0))
 )
 
 ;;==============================================================================
@@ -123,9 +123,20 @@
 
 ;; Decidir preguntas
 
+(defrule M1
+    (declare (salience 8))
+    (where cave)
+    (object (is-a PLAYER) (rept ?value))
+    (test (> ?value 0))
+    =>
+    (assert (show M1))
+    (assert (already-happened))
+)
+
 (defrule M4
     (where cave)
-    (or (test (= (get-rept [player]) 0))
+    (object (is-a PLAYER) (rept ?value))
+    (or (test (= ?value 0))
         (deja-vu))
     =>
     (assert (show M4))
@@ -156,6 +167,243 @@
     (retract ?ans)
 )
 
+(defrule M2
+    ?already <- (already-happened)
+    (object (is-a PLAYER) (madness ?value))
+    (test (> ?value 10))
+    =>
+    (assert (show M2))
+    (kill [player])
+    (assert (end))
+    (retract ?already)
+)
+
+(defrule M5
+    (threat-rip)
+    =>
+    (assert (show M5))
+    (inc-madness [player])
+    )
+
+(defrule M6
+    (threat-rip)
+    =>
+    (assert (show M6))
+)
+
+(defrule M7
+    ?threat <- (threat-rip)
+    =>
+    (assert (show M7))
+    (retract ?threat)
+    (kill [player])
+    (assert (end))
+    )
+
+(defrule M34
+    (ask-rip)
+    =>
+    (assert (show M34))
+    )
+
+(defrule M8
+    (show-rip)
+    =>
+    (assert (show M8))
+    )
+
+(defrule M9
+    (show-rip)
+    =>
+    (assert (show M9))
+    )
+
+(defrule M10
+    (declare (salience 5))
+    (not-under-effect)
+    ?under <- (not-under-effect)
+    =>
+    (assert (show M10))
+    (retract ?under)
+    )
+
+(defrule M11
+    ?race <- (its-x)
+    =>
+    (assert (show M11))
+    (assert (on-ship))
+    (retract ?race)
+    )
+
+(defrule M12
+    ?where <- (where cave)
+    (on-ship)
+    =>
+    (assert (show M12))
+    (retract ?where)
+    (assert (where planet))
+)
+
+(defrule M13
+    (where planet)
+    (on-ship)
+    =>
+    (assert (show M13))
+    )
+
+    (defrule M3
+        ?already <- (already-happened)
+        (or (test (= (get-rept [player]) 1))
+            (test (= (get-rept [player]) 2)))
+        =>
+        (assert (show M3))
+        (retract ?already)
+        (inc-madness [player])
+        (assert (deja-vu))
+    )
+
+(defrule Q2
+    ?already <- (already-happened)
+    (object (is-a PLAYER) (rept ?value))
+    (test (>= ?value 3))
+    =>
+    (assert (show Q2))
+    (retract ?already)
+)
+
+(defrule Q2-A1
+    ?ans <- (answer-to Q2 1)
+    =>
+    (assert (threat-rip))
+    (retract ?ans)
+    )
+
+(defrule Q2-A2
+    ?ans <- (answer-to Q2 2)
+    =>
+    (assert (ask-rip))
+    (retract ?ans)
+    )
+
+(defrule Q2-A3
+    ?ans <- (answer-to Q2 3)
+    =>
+    (assert (show-rip))
+    (retract ?ans)
+    )
+
+(defrule Q4
+    (ask-rip)
+    =>
+    (assert (show Q4))
+    )
+
+(defrule Q4-A1
+    ?ans <- (answer-to Q4 no)
+    ?rip <- (ask-rip)
+    =>
+    (assert (threat-rip))
+    (retract ?ans)
+    (retract ?rip)
+    )
+
+(defrule Q4-A2
+    ?ans <- (answer-to Q4 yes)
+    ?rip <- (ask-rip)
+    =>
+    (assert (show-rip))
+    (retract ?ans)
+    (retract ?rip)
+    )
+
+(defrule Q5
+    ?show <- (show-rip)
+    =>
+    (assert (show Q5))
+    (retract ?show)
+    )
+
+(defrule Q5-A1
+    ?ans <- (answer-to Q5 no)
+    =>
+    (assert (not-under-effect))
+    (assert (know-race))
+    (retract ?ans)
+    )
+
+(defrule Q5-A2
+    ?ans <- (answer-to Q5 yes)
+    =>
+    (assert (know-race))
+    (retract ?ans)
+    )
+
+(defrule Q6
+    ?race <- (know-race)
+    =>
+    (assert (show Q6))
+
+)
+
+(defrule Q6-A1
+    ?ans <- (answer-to Q6 1)
+    ?know <- (know-race)
+    =>
+    (assert (its-x-or-y))
+    (retract ?ans)
+    (retract ?know)
+    )
+
+(defrule Q6-A2
+    ?ans <- (answer-to Q6 2)
+    ?know <- (know-race)
+    =>
+    (assert (its-x))
+    (retract ?ans)
+    (retract ?know)
+    )
+
+(defrule Q7
+    (its-x-or-y)
+    =>
+    (assert (show Q7))
+    )
+
+(defrule Q7-A1
+    ?doubt <- (its-x-or-y)
+    ?ans <- (answer-to Q7 1)
+    =>
+    (assert (its-x))
+    (retract ?doubt)
+    (retract ?ans)
+    )
+
+(defrule Q7-A2
+    ?doubt <- (its-x-or-y)
+    ?ans <- (answer-to Q7 2)
+    =>
+    (assert (its-x))
+    (retract ?doubt)
+    (retract ?ans)
+    )
+
+(defrule Q14
+    (on-ship)
+    (where planet)
+    =>
+    (assert (show Q14))
+    )
+
+(defrule Q14-A1
+    ?ship <- (on-ship)
+    ?ans <- (answer-to Q14 1)
+    =>
+    (assert (crew-member))
+    (assert (outside))
+    (retract ?ans)
+    (retract ?ship)
+    )
+
 ;; CAMINO NAVE IMP
 
 (defrule M30
@@ -169,7 +417,8 @@
     (declare (salience 5))
     (go check-point)
     (where way-imp-ship)
-    (test (>= (get-rept [player]) 1))
+    (object (is-a PLAYER) (rept ?value))
+    (test (>= ?value 1))
     =>
     (assert (show Q8))
     (inc-madness [player])
@@ -209,11 +458,11 @@
     (assert (show M33))
     (retract ?stun)
 
-    (if (= (random 0 2) 0)
+    (if (= (random 0 100) 0)
         then
-            (assert (critical-hit))
+            (assert (critical-hit)) ; 33%
         else
-            (assert (reset-hit))
+            (assert (reset-hit)) ; 66%
     )
 )
 
@@ -399,6 +648,7 @@
     ?show <- (show ?q)
     (question-yes-no (name ?q) (text ?text))
     =>
+    (printout t (get-rept [player]) " => ")
     (printout t ?q "-> " ?text crlf)
     (print-answers-yes-no)
 
@@ -411,6 +661,7 @@
     ?show <- (show ?q)
     (question-multi (name ?q) (text ?text) (answers $?ans))
     =>
+    (printout t (get-rept [player]) " => ")
     (printout t ?q "-> " ?text crlf)
     (print-answers-multi $?ans)
 
@@ -423,6 +674,7 @@
     ?show <- (show ?q)
     (message (name ?q) (text ?text))
     =>
+    (printout t (get-rept [player]) " => ")
     (printout t ?q "-> " ?text crlf)
     (readline)
 
