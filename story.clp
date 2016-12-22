@@ -793,6 +793,50 @@
     (retract ?ans)
 )
 
+(defrule Q16
+    (where planet)
+    (cells)
+    =>
+    (assert (show Q16))
+    )
+
+(defrule Q16-A1
+    ?ans <- (answer-to Q16 yes)
+    =>
+    (retract ?ans)
+    (assert (free-him))
+    )
+
+(defrule Q16-A2
+    ?ans <- (answer-to Q16 no)
+    =>
+    (retract ?ans)
+    (assert (ignore-him))
+    )
+
+(defrule Q17
+    (ignore-him)
+    (where planet)
+    (cells)
+    =>
+    (assert (show Q17))
+    )
+
+(defrule Q17-A1
+    ?ans <- (answer-to Q17 yes)
+    =>
+    (assert (escape))
+    (retract ?ans)
+    )
+
+(defrule Q17-A2
+    ?ans <- (answer-to Q17 no)
+    =>
+    (assert (surrender))
+    (retract ?ans)
+    )
+
+
 (defrule M46
     (go shields-room)
     (where imp-ship)
@@ -852,6 +896,39 @@
     (retract ?alarm)
     (retract ?explo)
 )
+
+(defrule M23
+    ?escape <- (escape)
+    ?where <- (where planet)
+    ?cells <- (cells)
+    =>
+    (assert (show M23))
+    (assert (where cave))
+    (retract ?escape)
+    (retract ?where)
+    (retract ?cells)
+    (inc-rept [player])
+    )
+
+(defrule M24
+    ?surrender <- (surrender)
+    (where planet)
+    (cells)
+    =>
+    (assert (show M24))
+    (retract ?surrender)
+    (assert (give-up))
+    )
+
+(defrule M25
+    (give-up)
+    (where planet)
+    (cells)
+    =>
+    (assert (show M25))
+    (kill [player])
+    (assert (end))
+    )
 
 ;; Mostrar preguntas
 (defrule end
@@ -1088,10 +1165,10 @@
             "Te decantas por la Y"))
 
     (message (name M12)
-        (text "Llegas al planeta"))
+        (text "Llegas al planet"))
 
     (message (name M13)
-        (text "El planeta esta desierto"))
+        (text "El planet esta desierto"))
 
     (question-multi (name Q14)
         (text "¿Quien baja de la nave?")
