@@ -9,6 +9,8 @@ To run the game, install [CLIPS](http://clipsrules.sourceforge.net/) and run the
 (run)
 ```
 
+Spoiler, full story paths: [link](SPOILER_fullStory.svg)
+
 _Made by_
  - Daniel Ramirez Concepción
  - Jorge Sierra Acosta
