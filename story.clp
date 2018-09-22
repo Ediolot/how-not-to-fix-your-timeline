@@ -91,7 +91,7 @@
 )
 
 (deffunction print-answers-multi($?ans)
-    (bind ?len (length $?ans))
+    (bind ?len (length$ ?ans))
     (loop-for-count (?i 1 ?len)
 	   (printout t ?i ". " (nth$ ?i $?ans) crlf))
 )
